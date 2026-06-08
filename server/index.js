@@ -15,6 +15,12 @@ dotenv.config();
 
 const app = express();
 
+// ─── Trust Vercel / reverse-proxy headers ────────────────────────────────────
+// Required for express-rate-limit to work correctly behind Vercel's proxy.
+// Without this, rate-limit throws ERR_ERL_UNEXPECTED_X_FORWARDED_FOR and
+// crashes the serverless function on every request.
+app.set('trust proxy', 1);
+
 // ─── Security Headers ─────────────────────────────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }
