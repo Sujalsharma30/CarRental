@@ -3,18 +3,28 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-let isConnected = false;
-let lastAttemptTime = 0;
-const RECONNECT_COOLDOWN_MS = 30000; // wait 30s between failed attempts
-
+/**
+ * connectDB — safe to call multiple times.
+ * - If already connected (readyState 1): returns immediately.
+ * - If currently connecting (readyState 2): waits for that promise to resolve.
+ * - Otherwise: initiates a new connection.
+ *
+ * The old 30-second cooldown is removed because in Vercel serverless each
+ * function invocation is a fresh process, so the cooldown only blocked the
+ * per-request middleware reconnect without any benefit.
+ */
 const connectDB = async () => {
-  // Already connected
-  if (isConnected && mongoose.connection.readyState === 1) return;
+  // Already connected — nothing to do
+  if (mongoose.connection.readyState === 1) return;
 
-  // Cooldown between failed attempts to prevent hammering Atlas
-  const now = Date.now();
-  if (!isConnected && (now - lastAttemptTime) < RECONNECT_COOLDOWN_MS) {
-    return; // Still in cooldown — skip this attempt
+  // A connection attempt is already in-flight — wait for it instead of
+  // starting a second one (avoids duplicate connection race in serverless).
+  if (mongoose.connection.readyState === 2) {
+    await new Promise((resolve, reject) => {
+      mongoose.connection.once('connected', resolve);
+      mongoose.connection.once('error', reject);
+    });
+    return;
   }
 
   const uri = process.env.MONGODB_URI;
@@ -29,40 +39,31 @@ const connectDB = async () => {
     return;
   }
 
-  lastAttemptTime = now;
-
   try {
     mongoose.set('bufferCommands', false);
 
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 8000,
+      serverSelectionTimeoutMS: 10000, // 10s — enough for Atlas cold connections
       socketTimeoutMS: 45000,
     });
 
-    isConnected = true;
     const { host, name } = mongoose.connection;
     console.log(`[DB] MongoDB Connected: ${host || 'unknown'} — DB: ${name || 'unknown'}`);
 
-    // Register event listeners only once
+    // Register event listeners only once per process
     if (!mongoose.connection.listenerCount('disconnected')) {
       mongoose.connection.on('disconnected', () => {
-        isConnected = false;
-        console.warn('[DB] MongoDB disconnected. Will attempt reconnect on next request (30s cooldown).');
+        console.warn('[DB] MongoDB disconnected.');
       });
-
       mongoose.connection.on('reconnected', () => {
-        isConnected = true;
         console.log('[DB] MongoDB reconnected successfully.');
       });
-
       mongoose.connection.on('error', (err) => {
-        isConnected = false;
         console.error(`[DB] MongoDB connection error: ${err.message}`);
       });
     }
 
   } catch (error) {
-    isConnected = false;
     console.error(`[DB] MongoDB Connection Failed: ${error.message}`);
 
     if (process.env.DISABLE_MEMORY_FALLBACK === 'true') {
