@@ -18,15 +18,7 @@ export default defineConfig({
     }
   },
   build: {
-    // Warn if any chunk exceeds 1MB
-    chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        // Split vendor bundles for better caching
-        manualChunks: {
-          react: ['react', 'react-dom']
-        }
-      }
-    }
+    chunkSizeWarningLimit: 1000
   }
 })
+
