@@ -1330,9 +1330,7 @@ body {
 }
 
 @media (max-width: 768px) {
-  .fo-sidebar {
-    display: none;
-  }
+  /* Sidebar is handled by the 900px drawer breakpoint – do NOT hide here */
 
   .main-content {
     margin-left: 0 !important;
@@ -1841,6 +1839,7 @@ select.form-control {
   }
 
   .fo-sidebar--open {
+    display: flex !important;
     transform: translateX(0);
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   }
