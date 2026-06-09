@@ -493,43 +493,217 @@ h6 {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  /* Darker, less blur */
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 200;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .modal-content {
   width: 100%;
-  max-width: 600px;
-  /* Reduced from 800px for tighter focus */
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg), var(--inner-highlight);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.18),
+    0 8px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: modalAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalAppear {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Glass-panel override — ensure white in modal context */
+.modal-content.glass-panel {
+  background: #ffffff !important;
+  border: none !important;
 }
 
 .modal-header {
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #6366f1 100%);
+  flex-shrink: 0;
+}
+
+.modal-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  margin: 0;
+  font-family: var(--font-title);
+  letter-spacing: -0.01em;
+}
+
+/* Close button inside gradient header */
+.modal-header .fo-btn-outline {
+  background: rgba(255,255,255,0.15) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+  color: #ffffff !important;
+}
+
+.modal-header .fo-btn-outline:hover {
+  background: rgba(255,255,255,0.25) !important;
 }
 
 .modal-body {
   padding: 24px;
-  max-height: 70vh;
+  max-height: calc(90vh - 130px);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #ffffff;
+}
+
+/* Form controls inside modal must use light theme */
+.modal-body .form-group label,
+.modal-body label {
+  color: #475569 !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.modal-body .form-control,
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  background: #fafafa !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #1e293b !important;
+  border-radius: 10px !important;
+  padding: 9px 12px !important;
+  font-size: 0.87rem !important;
+  transition: border-color 0.18s, box-shadow 0.18s !important;
+}
+
+.modal-body .form-control:focus,
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: #6366f1 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+  outline: none !important;
+}
+
+.modal-body .form-control::placeholder,
+.modal-body input::placeholder {
+  color: #cbd5e1 !important;
 }
 
 .modal-footer {
-  padding: 16px 24px;
-  border-top: 1px solid var(--border-light);
-  background: var(--bg-primary);
-  /* Slight contrast for footer */
+  padding: 14px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
 }
+
+/* Buttons inside modal footer */
+.modal-footer .btn-secondary,
+.modal-footer .btn.btn-secondary {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #64748b !important;
+  border-radius: 10px !important;
+  padding: 9px 18px !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+}
+
+.modal-footer .btn-secondary:hover {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+.modal-footer .btn-primary,
+.modal-footer .btn.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 9px 20px !important;
+  font-weight: 700 !important;
+  font-size: 0.87rem !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+}
+
+.modal-footer .btn-primary:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9) !important;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4) !important;
+}
+
+.modal-footer .btn-danger,
+.modal-footer .btn.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  padding: 9px 20px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(239,68,68,0.3) !important;
+}
+
+.modal-footer .btn-danger:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* ── MOBILE: Modal as bottom-sheet ── */
+@media (max-width: 768px) {
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .modal-content {
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 94vh !important;
+    width: 100% !important;
+  }
+
+  .modal-body {
+    max-height: calc(94vh - 130px) !important;
+    padding: 18px 16px !important;
+  }
+
+  .modal-header {
+    padding: 16px 18px !important;
+  }
+
+  .modal-footer {
+    padding: 12px 16px !important;
+  }
+
+  /* Mobile: stack footer buttons full width */
+  .modal-footer {
+    flex-wrap: wrap !important;
+  }
+
+  .modal-footer button {
+    flex: 1 !important;
+    min-width: 120px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
 
 /* --- Sub Tabs Navigation --- */
 .sub-tabs-container {
@@ -2071,3 +2245,1221 @@ select.form-control {
   background: #f8f9fb !important;
   color: #1e293b !important;
 }
+
+/* ==========================================================================
+   THEME TEXT VISIBILITY FIXES
+   Ensure all text is readable in both light mode (current theme)
+   ========================================================================== */
+
+/* Force all page text to use proper light-theme colors */
+.fo-page-title {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+  background: none !important;
+}
+
+.fo-stat-value {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+
+.fo-section-title { color: #1e293b !important; }
+.fo-stat-label { color: #64748b !important; }
+.fo-breadcrumb { color: #94a3b8 !important; }
+.fo-last-updated { color: #94a3b8 !important; }
+.fo-util-name { color: #334155 !important; }
+.fo-cell-bold { color: #1e293b !important; }
+.fo-table td { color: #334155 !important; }
+.fo-table th { color: #94a3b8 !important; }
+
+/* Fix hardcoded dark-text inline styles throughout components */
+.vehicle-card-info-title { color: #0f172a !important; }
+.fo-logo-title { color: #1e293b !important; }
+.fo-user-name { color: #1e293b !important; }
+.fo-user-role { color: #94a3b8 !important; }
+
+/* Booking form section headers — use indigo in light mode */
+.bform-section-title {
+  color: #4f46e5 !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Fix inline section boxes in booking/vehicle forms */
+.bform-section-box {
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   RESPONSIVE GRID UTILITY CLASSES
+   Replace inline gridTemplateColumns throughout JSX
+   ========================================================================== */
+
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+/* VehicleManagement filter bar: 2fr + 4×1fr */
+.vm-filter-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ==========================================================================
+   MODAL RESPONSIVE FIXES
+   ========================================================================== */
+
+/* Large modals (Vehicle Config, Booking Detail) */
+.modal-content {
+  width: 90% !important;
+  max-width: 800px;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+/* Sidebar-split modal layout (Vehicle Config edit) */
+.modal-sidebar-layout {
+  display: flex;
+  overflow: hidden;
+  flex: 1;
+}
+
+.modal-sidebar-nav {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid #e5e7eb;
+  background: #f8f9fb;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-sidebar-nav button {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #64748b;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+}
+
+.modal-sidebar-nav button:hover { background: #eef2ff; color: #4f46e5; }
+.modal-sidebar-nav button.active { background: #4f46e5; color: #fff; }
+
+.modal-sidebar-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Booking form wrapper */
+.booking-form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* Fix modal header row */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Modal close button */
+.modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: #64748b;
+  transition: all 0.15s;
+}
+
+.modal-close-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+/* ==========================================================================
+   BOOKINGS PAGE — RESPONSIVE CARDS & TABLE
+   ========================================================================== */
+
+/* Booking list cards */
+.bv-booking-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s;
+}
+
+.bv-booking-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  border-color: #cbd5e1;
+}
+
+.bv-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.bv-card-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.bv-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Stats strip inside booking cards */
+.bv-flow-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  padding: 6px 0;
+}
+
+.bv-flow-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.bv-flow-item.cash { background: #f0fdf4; color: #16a34a; }
+.bv-flow-item.online { background: #eff6ff; color: #2563eb; }
+.bv-flow-item.out { background: #fef2f2; color: #dc2626; }
+
+/* Booking detail header */
+.bv-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   DAILY HISAB (Revenue) — RESPONSIVE FIXES
+   ========================================================================== */
+
+.hisab-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.hisab-summary-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.hisab-summary-card h4 {
+  font-size: 0.82rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.hisab-summary-card .hisab-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  font-family: var(--font-title);
+}
+
+/* ==========================================================================
+   MAIN CONTENT — PAGE PADDING FIX
+   ========================================================================== */
+
+.fo-page-inner {
+  padding: 24px 28px;
+}
+
+/* Page wrapper for all sub-pages */
+.fo-page-wrap {
+  padding: 20px 24px;
+}
+
+/* ==========================================================================
+   BREAKPOINT: 1024px — Tablet landscape
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .vm-filter-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .modal-sidebar-nav { width: 160px; }
+}
+
+/* ==========================================================================
+   BREAKPOINT: 900px — Sidebar collapses (already handled above)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .fo-page-inner, .fo-page-wrap { padding: 16px 20px; }
+  .booking-form-wrap { padding: 16px; border-radius: 8px; }
+}
+
+/* ==========================================================================
+   BREAKPOINT: 768px — Mobile landscape / small tablets
+   ========================================================================== */
+@media (max-width: 768px) {
+
+  /* Grid collapses to 1 col */
+  .grid-2col,
+  .grid-3col {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vm-filter-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Modal takes full screen on mobile */
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px 16px 0 0 !important;
+    max-height: 94vh !important;
+    margin: 0 !important;
+  }
+
+  /* Modal sidebar becomes horizontal tabs on mobile */
+  .modal-sidebar-layout {
+    flex-direction: column !important;
+  }
+
+  .modal-sidebar-nav {
+    width: 100% !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    background: #fff !important;
+  }
+
+  .modal-sidebar-nav button {
+    white-space: nowrap !important;
+    border-bottom: none !important;
+    border-right: 1px solid #f1f5f9 !important;
+    padding: 10px 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .modal-sidebar-content {
+    padding: 16px !important;
+  }
+
+  /* Booking form full width on mobile */
+  .booking-form-wrap {
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    padding: 16px !important;
+  }
+
+  /* Hisab 2col grid */
+  .hisab-grid-2col {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* fo-page-inner / wrap */
+  .fo-page-inner, .fo-page-wrap {
+    padding: 12px 14px !important;
+  }
+
+  /* Page header stacks */
+  .fo-page-header {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+
+  /* Table columns: hide lower priority on 768px */
+  .fo-table th:nth-child(n+5),
+  .fo-table td:nth-child(n+5) {
+    display: none !important;
+  }
+
+  /* Booking card actions wrap nicely */
+  .bv-card-actions { gap: 4px; }
+
+  .fo-btn-primary .fo-btn-label,
+  .fo-btn-outline .fo-btn-label { display: none; }
+
+  /* Vehicle cards: 2 col on tablet */
+  .vehicles-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ==========================================================================
+   BREAKPOINT: 540px — Small mobile
+   ========================================================================== */
+@media (max-width: 540px) {
+
+  .vm-filter-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vehicles-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Header: hide search bar */
+  .fo-header-search { display: none !important; }
+
+  /* Modal full width */
+  .modal-content {
+    max-height: 98vh !important;
+  }
+
+  /* Modal header */
+  .modal-header { padding: 12px 16px !important; }
+  .modal-header h2 { font-size: 1rem !important; }
+
+  /* Form controls text size */
+  .form-control { font-size: 0.9rem !important; }
+
+  /* Table: 3 cols max on small mobile */
+  .fo-table th:nth-child(n+4),
+  .fo-table td:nth-child(n+4),
+  .custom-table th:nth-child(n+4),
+  .custom-table td:nth-child(n+4) {
+    display: none !important;
+  }
+
+  /* Stat grid: 2 cols */
+  .fo-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Page title */
+  .fo-page-title { font-size: 1.25rem !important; }
+
+  /* Booking form */
+  .booking-form-wrap { padding: 12px !important; }
+  .bform-section-box { padding: 12px !important; }
+}
+
+/* ==========================================================================
+   AVAILABLE VEHICLES TABLE — RESPONSIVE
+   ========================================================================== */
+
+/* Hide non-critical columns on tablet */
+@media (max-width: 900px) {
+  .custom-table .av-col-specs,
+  .custom-table .av-col-location {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-table .av-col-rate {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   FIX: var(--primary) = #fff in dark mode used as text — override for section titles
+   ========================================================================== */
+
+/* All form section h4 headers inside forms should be indigo */
+.form-section-heading {
+  color: #4f46e5;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Sub-panel boxes inside modals */
+.form-sub-panel {
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.form-sub-panel h4 {
+  font-size: 0.85rem;
+  color: #4f46e5;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PRICING PLAN GRIDS — RESPONSIVE
+   ========================================================================== */
+
+.pricing-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .pricing-plan-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-plan-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ==========================================================================
+   BASIC INFO GRID IN MODALS — RESPONSIVE
+   ========================================================================== */
+
+.basic-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 540px) {
+  .basic-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ==========================================================================
+   HEADER FIX — Proper responsive layout
+   ========================================================================== */
+
+.fo-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 12px 24px !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+  min-height: 60px;
+}
+
+.fo-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 480px) {
+  .fo-header { padding: 10px 14px !important; gap: 8px !important; }
+  .fo-header-actions { gap: 4px !important; }
+  .fo-header-icon-btn { width: 34px !important; height: 34px !important; }
+}
+
+/* ==========================================================================
+   SIDEBAR FIXES — always correct width & transition
+   ========================================================================== */
+
+.fo-sidebar {
+  width: 220px !important;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@media (min-width: 901px) {
+  .fo-sidebar {
+    transform: translateX(0) !important;
+    box-shadow: none !important;
+  }
+  .main-content {
+    margin-left: 220px !important;
+  }
+}
+
+/* ==========================================================================
+   PRINT — Hide non-essential UI for receipt printing
+   ========================================================================== */
+
+@media print {
+  .fo-sidebar,
+  .fo-header,
+  .fo-hamburger,
+  .fo-sidebar-backdrop,
+  .fo-btn-primary,
+  .fo-btn-outline,
+  .bv-card-actions { display: none !important; }
+
+  .main-content { margin-left: 0 !important; padding: 0 !important; }
+  body { background: #fff !important; }
+}
+
+/* ==========================================================================
+   GLOBAL COLOR FIX — Override "color: white" inline styles 
+   in light-background containers throughout all components
+   ========================================================================== */
+
+/* Any element with explicit inline color:white inside a light section box */
+.bform-section-box strong,
+.bform-section-box span,
+.bform-section-box div,
+.bform-section-box label {
+  /* Reset white text in light section boxes — allow specific overrides */
+  color: inherit;
+}
+
+/* Fix billing summary card text inside bform */
+.bform-section-box .animate-fade strong {
+  color: #1e293b;
+}
+
+/* Fix inline white text in light panels globally */
+.booking-form-wrap [style*="color: white"],
+.booking-form-wrap [style*="color:'white'"] {
+  color: #1e293b !important;
+}
+
+/* Modal content area — prevent white text on white bg */
+.modal-content .modal-sidebar-content [style*="color: white"] {
+  color: #1e293b !important;
+}
+
+/* Override --primary white color for text usage in component headings */
+/* Since --primary = #fff in dark theme, heading text that uses it 
+   may be invisible on white panels */
+.bform-section-box h4,
+.bform-section-box h3,
+.modal-sidebar-content h4,
+.modal-sidebar-content h3 {
+  color: #4f46e5 !important;
+}
+
+/* Fix deposit mode label and doc type labels in light panels */
+.bform-section-box > div > label {
+  color: #1e293b !important;
+}
+
+/* Ensure doc card labels are visible */
+.bform-section-box .grid-2col > div > div:first-child {
+  color: #1e293b !important;
+}
+
+/* ==========================================================================
+   VEHICLE MANAGEMENT — Tab Nav inside sidebar modal
+   ========================================================================== */
+
+.vm-edit-modal {
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+}
+
+.vm-edit-modal .modal-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.vm-tab-nav {
+  width: 190px;
+  flex-shrink: 0;
+  background: #f8f9fb;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.vm-tab-nav button {
+  text-align: left;
+  padding: 11px 16px;
+  border: none;
+  border-bottom: 1px solid #f1f5f9;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.83rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vm-tab-nav button:hover { background: #eef2ff; color: #4f46e5; }
+.vm-tab-nav button.active-tab { background: #4f46e5; color: #fff !important; }
+
+.vm-tab-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+/* Tab content form groups */
+.vm-tab-content .form-group label {
+  color: #475569 !important;
+  font-size: 0.82rem;
+}
+
+.vm-tab-content h4 {
+  color: #4f46e5 !important;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .vm-edit-modal .modal-body {
+    flex-direction: column !important;
+  }
+
+  .vm-tab-nav {
+    width: 100% !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    max-height: 48px;
+  }
+
+  .vm-tab-nav button {
+    white-space: nowrap !important;
+    border-bottom: none !important;
+    border-right: 1px solid #f1f5f9 !important;
+    flex-shrink: 0 !important;
+    padding: 10px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .vm-tab-content {
+    padding: 14px !important;
+  }
+}
+
+/* ==========================================================================
+   BOOKED VEHICLES — Detail view section headings 
+   Fix var(--primary) = white used as h3 text on light panels
+   ========================================================================== */
+
+.bv-detail-section h3 {
+  color: #4f46e5 !important;
+  font-size: 0.95rem !important;
+}
+
+.bv-detail-section h4 {
+  color: #4f46e5 !important;
+  font-size: 0.82rem !important;
+}
+
+.bv-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 540px) {
+  .bv-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Revenue figure on dark cards */
+.rev-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   PREMIUM ADD VEHICLE MODAL — av-add-modal design system
+   ========================================================================== */
+
+/* Modal container */
+.av-add-modal {
+  width: 100%;
+  max-width: 620px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+  animation: slideUpModal 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── GRADIENT HEADER ── */
+.av-modal-header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #6366f1 100%);
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.av-modal-header-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.av-modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  font-family: var(--font-title);
+  letter-spacing: -0.01em;
+}
+
+.av-modal-subtitle {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 3px 0 0 0;
+}
+
+.av-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  backdrop-filter: blur(4px);
+}
+
+.av-modal-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── MODAL BODY ── */
+.av-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  overscroll-behavior: contain;
+}
+
+/* ── FORM SECTIONS ── */
+.av-form-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.av-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.av-section-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── FIELD GRID ── */
+.av-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.av-field-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* ── LABELS ── */
+.av-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0.01em;
+}
+
+.av-req {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* ── INPUTS & SELECTS ── */
+.av-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: #1e293b;
+  background: #fafafa;
+  font-family: var(--font-body);
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.av-input:focus {
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.av-input::placeholder {
+  color: #cbd5e1;
+}
+
+textarea.av-input {
+  height: auto;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+/* ── CATEGORY SELECTOR GRID ── */
+.av-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.av-cat-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.av-cat-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ede9fe, #dbeafe);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.av-cat-btn:hover {
+  border-color: #a5b4fc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.av-cat-btn.active {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.av-cat-btn.active::before { opacity: 1; }
+
+.av-cat-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.2s;
+}
+
+.av-cat-btn.active .av-cat-icon { transform: scale(1.15); }
+
+.av-cat-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  position: relative;
+  z-index: 1;
+}
+
+.av-cat-btn.active .av-cat-name { color: #4f46e5; }
+
+.av-cat-desc {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  position: relative;
+  z-index: 1;
+}
+
+.av-cat-btn.active .av-cat-desc { color: #6366f1; }
+
+/* ── ID PREVIEW PILL ── */
+.av-id-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #f8faff, #eef2ff);
+  border: 1px solid #e0e7ff;
+  border-radius: 10px;
+}
+
+.av-id-label {
+  font-size: 0.72rem;
+  color: #6366f1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.av-id-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4f46e5;
+  font-family: 'Courier New', monospace;
+  background: #e0e7ff;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+
+/* ── FOOTER ACTIONS ── */
+.av-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+.av-btn-cancel {
+  padding: 10px 20px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.18s;
+}
+
+.av-btn-cancel:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.av-btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  letter-spacing: 0.01em;
+}
+
+.av-btn-submit:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  transform: translateY(-1px);
+}
+
+.av-btn-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+/* ── RESPONSIVE: Tablet (≤768px) ── */
+@media (max-width: 768px) {
+  .av-add-modal {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 96vh;
+    margin-top: auto;
+  }
+
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .av-modal-header {
+    padding: 18px 20px;
+  }
+
+  .av-modal-header-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .av-modal-title { font-size: 1.05rem; }
+  .av-modal-subtitle { font-size: 0.73rem; }
+
+  .av-form-section {
+    padding: 16px 18px;
+  }
+
+  .av-field-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .av-category-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .av-cat-btn {
+    padding: 12px 6px;
+  }
+
+  .av-cat-icon { font-size: 1.3rem; }
+  .av-cat-name { font-size: 0.72rem; }
+  .av-cat-desc { display: none; }
+
+  .av-modal-footer {
+    padding: 14px 18px;
+  }
+}
+
+/* ── RESPONSIVE: Small Mobile (≤480px) ── */
+@media (max-width: 480px) {
+  .av-field-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .av-category-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px;
+  }
+
+  .av-cat-btn {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    padding: 10px 14px !important;
+    gap: 10px !important;
+  }
+
+  .av-cat-icon { font-size: 1.4rem !important; }
+  .av-cat-desc { display: block !important; font-size: 0.68rem; }
+
+  .av-modal-header { gap: 12px; }
+  .av-modal-title { font-size: 0.98rem; }
+
+  .av-btn-cancel,
+  .av-btn-submit { flex: 1; justify-content: center; }
+}
+

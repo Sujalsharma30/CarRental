@@ -627,7 +627,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
         </div>
 
         {showFilters && (
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: '12px', alignItems: 'center' }} className="animate-fade">
+          <div className="vm-filter-grid animate-fade">
             <div style={{ position: 'relative' }}>
               <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}/>
               <input 
@@ -747,163 +747,196 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
          4. ADD VEHICLE MODAL (Dedicated Popup)
          ========================================================================== */}
       {showAddModal && (
-        <div className="modal-overlay">
-          <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '650px' }}>
-            <div className="modal-header">
-              <h2>Register New Vehicle</h2>
-              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowAddModal(false)}><X size={16}/></button>
+        <div className="modal-overlay" style={{ alignItems: 'center', padding: '16px' }}>
+          <div className="av-add-modal animate-slide-up">
+
+            {/* ── GRADIENT HEADER ── */}
+            <div className="av-modal-header">
+              <div className="av-modal-header-icon">
+                <Car size={28} color="#fff" />
+              </div>
+              <div>
+                <h2 className="av-modal-title">Register New Vehicle</h2>
+                <p className="av-modal-subtitle">Add a new fleet vehicle to your inventory</p>
+              </div>
+              <button className="av-modal-close" onClick={() => setShowAddModal(false)}>
+                <X size={18} />
+              </button>
             </div>
-            
+
             <form onSubmit={handleAddSubmit}>
-              <div className="modal-body">
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                  <div className="form-group">
-                    <label>Vehicle Name</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="e.g. Honda Activa 6G"
-                      value={addFormData.name} 
-                      onChange={e => setAddFormData({ ...addFormData, name: e.target.value })} 
-                      required 
-                    />
-                  </div>
+              <div className="av-modal-body">
 
-                  <div className="form-group">
-                    <label>Company / Brand</label>
-                    <select 
-                      className="form-control"
-                      value={addFormData.brand}
-                      onChange={e => setAddFormData({ ...addFormData, brand: e.target.value })}
-                    >
-                      <option value="Honda">Honda</option>
-                      <option value="TVS">TVS</option>
-                      <option value="Hero">Hero</option>
-                      <option value="Bajaj">Bajaj</option>
-                      <option value="Yamaha">Yamaha</option>
-                      <option value="Suzuki">Suzuki</option>
-                      <option value="Hyundai">Hyundai</option>
-                      <option value="Tata">Tata</option>
-                      <option value="Mahindra">Mahindra</option>
-                    </select>
+                {/* ── SECTION 1: VEHICLE IDENTITY ── */}
+                <div className="av-form-section">
+                  <div className="av-section-label">
+                    <span className="av-section-dot" style={{ background: '#6366f1' }}></span>
+                    Vehicle Identity
                   </div>
-
-                  <div className="form-group">
-                    <label>Vehicle Number</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="e.g. MP09AB1234"
-                      value={addFormData.regNumber} 
-                      onChange={e => setAddFormData({ ...addFormData, regNumber: e.target.value })} 
-                      required 
-                    />
+                  <div className="av-field-grid">
+                    <div className="av-field-wrap">
+                      <label className="av-label">Vehicle Name <span className="av-req">*</span></label>
+                      <input
+                        type="text"
+                        className="av-input"
+                        placeholder="e.g. Honda Activa 6G"
+                        value={addFormData.name}
+                        onChange={e => setAddFormData({ ...addFormData, name: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="av-field-wrap">
+                      <label className="av-label">Registration Number <span className="av-req">*</span></label>
+                      <input
+                        type="text"
+                        className="av-input"
+                        placeholder="e.g. MP09AB1234"
+                        value={addFormData.regNumber}
+                        onChange={e => setAddFormData({ ...addFormData, regNumber: e.target.value.toUpperCase() })}
+                        required
+                      />
+                    </div>
+                    <div className="av-field-wrap">
+                      <label className="av-label">Company / Brand</label>
+                      <select className="av-input" value={addFormData.brand} onChange={e => setAddFormData({ ...addFormData, brand: e.target.value })}>
+                        <option value="Honda">Honda</option>
+                        <option value="TVS">TVS</option>
+                        <option value="Hero">Hero</option>
+                        <option value="Bajaj">Bajaj</option>
+                        <option value="Yamaha">Yamaha</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="Hyundai">Hyundai</option>
+                        <option value="Tata">Tata</option>
+                        <option value="Mahindra">Mahindra</option>
+                      </select>
+                    </div>
+                    <div className="av-field-wrap">
+                      <label className="av-label">Fuel Type</label>
+                      <select className="av-input" value={addFormData.fuelType} onChange={e => setAddFormData({ ...addFormData, fuelType: e.target.value })}>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="CNG">CNG</option>
+                        <option value="EV">Electric (EV)</option>
+                        <option value="Petrol + CNG">Petrol + CNG</option>
+                      </select>
+                    </div>
                   </div>
+                </div>
 
-                  <div className="form-group">
-                    <label>Category</label>
-                    <select 
-                      className="form-control"
-                      value={addFormData.category}
-                      onChange={e => setAddFormData({ ...addFormData, category: e.target.value })}
-                    >
-                      <option value="Bike">Bike</option>
-                      <option value="Scooty">Scooty</option>
-                      <option value="Car">Car</option>
-                      <option value="EV">EV</option>
-                    </select>
+                {/* ── SECTION 2: VEHICLE TYPE ── */}
+                <div className="av-form-section">
+                  <div className="av-section-label">
+                    <span className="av-section-dot" style={{ background: '#06b6d4' }}></span>
+                    Vehicle Category
                   </div>
-
-                  <div className="form-group">
-                    <label>Fuel Type</label>
-                    <select 
-                      className="form-control"
-                      value={addFormData.fuelType}
-                      onChange={e => setAddFormData({ ...addFormData, fuelType: e.target.value })}
-                    >
-                      <option value="Petrol">Petrol</option>
-                      <option value="Diesel">Diesel</option>
-                      <option value="CNG">CNG</option>
-                      <option value="EV">EV</option>
-                      <option value="Petrol + CNG">Petrol + CNG</option>
-                      <option value="Diesel + CNG">Diesel + CNG</option>
-                    </select>
+                  <div className="av-category-grid">
+                    {[
+                      { value: 'Bike', icon: '🏍️', desc: 'Motorcycle' },
+                      { value: 'Scooty', icon: '🛵', desc: 'Scooter' },
+                      { value: 'Car', icon: '🚗', desc: 'Car / SUV' },
+                      { value: 'EV', icon: '⚡', desc: 'Electric' },
+                    ].map(cat => (
+                      <button
+                        key={cat.value}
+                        type="button"
+                        className={`av-cat-btn ${addFormData.category === cat.value ? 'active' : ''}`}
+                        onClick={() => setAddFormData({ ...addFormData, category: cat.value })}
+                      >
+                        <span className="av-cat-icon">{cat.icon}</span>
+                        <span className="av-cat-name">{cat.value}</span>
+                        <span className="av-cat-desc">{cat.desc}</span>
+                      </button>
+                    ))}
                   </div>
+                </div>
 
-                  <div className="form-group">
-                    <label>Operation Zone</label>
-                    <select 
-                      className="form-control"
-                      value={addFormData.zone}
-                      onChange={e => setAddFormData({ ...addFormData, zone: e.target.value })}
-                    >
-                      <option value="Vijay Nagar">Vijay Nagar</option>
-                      <option value="Bhawarkua">Bhawarkua</option>
-                      <option value="Rajendra Nagar">Rajendra Nagar</option>
-                      <option value="Palasia">Palasia</option>
-                    </select>
+                {/* ── SECTION 3: LOCATION ── */}
+                <div className="av-form-section">
+                  <div className="av-section-label">
+                    <span className="av-section-dot" style={{ background: '#10b981' }}></span>
+                    Location & Branch
                   </div>
-
-                  <div className="form-group">
-                    <label>Zone Branch Location</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="e.g. Main Branch"
-                      value={addFormData.branch}
-                      onChange={e => setAddFormData({ ...addFormData, branch: e.target.value })}
-                      required
-                    />
+                  <div className="av-field-grid">
+                    <div className="av-field-wrap">
+                      <label className="av-label">Operation Zone</label>
+                      <select className="av-input" value={addFormData.zone} onChange={e => setAddFormData({ ...addFormData, zone: e.target.value })}>
+                        <option value="Vijay Nagar">Vijay Nagar</option>
+                        <option value="Bhawarkua">Bhawarkua</option>
+                        <option value="Rajendra Nagar">Rajendra Nagar</option>
+                        <option value="Palasia">Palasia</option>
+                      </select>
+                    </div>
+                    <div className="av-field-wrap">
+                      <label className="av-label">Branch Name</label>
+                      <input
+                        type="text"
+                        className="av-input"
+                        placeholder="e.g. Main Branch"
+                        value={addFormData.branch}
+                        onChange={e => setAddFormData({ ...addFormData, branch: e.target.value })}
+                        required
+                      />
+                    </div>
                   </div>
+                  {/* Auto ID Preview pill */}
+                  <div className="av-id-preview">
+                    <span className="av-id-label">Auto-generated Vehicle ID</span>
+                    <span className="av-id-value">VEH-{String(vehicles.length + 1).padStart(5, '0')}</span>
+                  </div>
+                </div>
 
-                  <div className="form-group">
-                    <label>Generate ID Preview</label>
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      value={`VEH-${String(vehicles.length + 1).padStart(5, '0')}`} 
-                      disabled 
+                {/* ── SECTION 4: NOTES ── */}
+                <div className="av-form-section" style={{ borderBottom: 'none' }}>
+                  <div className="av-section-label">
+                    <span className="av-section-dot" style={{ background: '#f59e0b' }}></span>
+                    Additional Notes
+                  </div>
+                  <div className="av-field-wrap">
+                    <textarea
+                      className="av-input"
+                      rows="3"
+                      placeholder="Condition notes, key handover instructions, special remarks..."
+                      value={addFormData.description}
+                      onChange={e => setAddFormData({ ...addFormData, description: e.target.value })}
+                      style={{ resize: 'vertical', minHeight: '80px' }}
                     />
                   </div>
                 </div>
 
-                <div className="form-group" style={{ marginTop: '12px' }}>
-                  <label>Description Note</label>
-                  <textarea 
-                    className="form-control" 
-                    rows="3" 
-                    placeholder="Provide vehicle condition, keys instructions, etc."
-                    value={addFormData.description} 
-                    onChange={e => setAddFormData({ ...addFormData, description: e.target.value })} 
-                  />
-                </div>
               </div>
 
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Create Vehicle</button>
+              {/* ── FOOTER ACTIONS ── */}
+              <div className="av-modal-footer">
+                <button type="button" className="av-btn-cancel" onClick={() => setShowAddModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="av-btn-submit">
+                  <Plus size={16} /> Register Vehicle
+                </button>
               </div>
             </form>
+
           </div>
         </div>
       )}
+
 
       {/* ==========================================================================
          5. EDIT / CONFIG MODAL (Tabbed popup - 👁️)
          ========================================================================== */}
       {showEditModal && selectedVehicle && (
         <div className="modal-overlay">
-          <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '1000px', height: '85vh', display: 'flex', flexDirection: 'column', padding: 0 }}>
+        <div className="modal-content glass-panel vm-edit-modal" style={{ width: '90%', maxWidth: '1000px' }}>
             
             <div className="modal-header" style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)' }}>
               <h2>Vehicle Configuration ({selectedVehicle.vehicleId})</h2>
               <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowEditModal(false)}><X size={16}/></button>
             </div>
 
-            <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+            <div className="modal-body" style={{ flex: 1, display: 'flex', overflow: 'hidden', padding: 0 }}>
               
               {/* Tab Selector Sidebar */}
-              <div style={{ width: '220px', borderRight: '1px solid var(--border-light)', background: 'rgba(0,0,0,0.1)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+              <div className="vm-tab-nav">
                 {[
                   { id: 1, label: 'Basic Information' },
                   { id: 2, label: 'Pricing Plans' },
@@ -914,17 +947,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                   <button 
                     key={t.id}
                     type="button"
-                    style={{ 
-                      textAlign: 'left',
-                      padding: '14px 18px',
-                      fontSize: '0.85rem',
-                      background: activeSubTab === t.id ? 'var(--primary)' : 'transparent',
-                      color: activeSubTab === t.id ? '#fff' : 'var(--text-secondary)',
-                      border: 'none',
-                      cursor: 'pointer',
-                      borderBottom: '1px solid rgba(255,255,255,0.02)',
-                      transition: 'all 0.3s'
-                    }}
+                    className={activeSubTab === t.id ? 'active-tab' : ''}
                     onClick={() => setActiveSubTab(t.id)}
                   >
                     {t.label}
@@ -933,15 +956,15 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
               </div>
 
               {/* Form Content panel */}
-              <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
+              <div className="vm-tab-content">
                 <form onSubmit={handleEditSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <div style={{ flex: 1 }}>
                     
                     {/* TAB 1: BASIC INFORMATION */}
                     {activeSubTab === 1 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Basic Fleet Information</h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                        <h3 style={{ fontSize: '1rem', color: '#4f46e5', marginBottom: '16px' }}>Basic Fleet Information</h3>
+                        <div className="grid-2col">
                           <div className="form-group">
                             <label>Basic ID</label>
                             <input type="text" className="form-control" value={selectedVehicle.vehicleId} disabled />

@@ -6,11 +6,11 @@ export default function Sidebar({ currentTab, setCurrentTab, userRole, isOpen, o
 
   const mainNav = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-    { id: 'vehicles', label: 'Vehicles', icon: <Car size={20} />, adminOnly: true },
-    { id: 'bookings', label: 'Bookings', icon: <Calendar size={20} /> },
-    { id: 'available', label: 'Customers', icon: <Users size={20} /> },
+    { id: 'vehicles', label: 'Vehicle management', icon: <Car size={20} />, adminOnly: true },
+    { id: 'bookings', label: 'Available vehicle', icon: <Calendar size={20} /> },
+    { id: 'available', label: 'Booked vehicle', icon: <Users size={20} /> },
     // { id: 'fleet', label: 'Fleet Tracking', icon: <Crosshair size={20}/>, disabled: true },
-    { id: 'hisab', label: 'Revenue', icon: <DollarSign size={20} /> },
+    { id: 'hisab', label: 'Daily Hisab', icon: <DollarSign size={20} /> },
     // { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={20}/>, disabled: true },
     // { id: 'maintenance', label: 'Maintenance', icon: <Wrench size={20}/>, disabled: true },
   ];
