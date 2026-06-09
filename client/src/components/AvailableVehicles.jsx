@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Search, SlidersHorizontal, Car, Bike, Calendar, Eye, Pencil, Wrench, X, Camera, Upload, MapPin, Fuel, Gauge, Users, ChevronDown } from 'lucide-react';
 
 export default function AvailableVehicles({ vehicles, bookings = [], onBookVehicle, onUpdateVehicle, onToggleStatus }) {
   // Search & Filters State
@@ -398,63 +399,52 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
   return (
     <div className="animate-slide-up">
       
-      {/* 📊 KPI SUMMARY GRID */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
-        
-        {/* Total Vehicles Card with category strip */}
-        <div className="glass-panel" style={{ padding: '16px', position: 'relative' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Total Vehicles</span>
-          <div style={{ fontSize: '2rem', fontWeight: 'bold', margin: '4px 0 10px 0', color: '#fff' }}>
-            {totalFleet}
+      {/* KPI SUMMARY GRID */}
+      <div className="fo-stat-grid">
+        <div className="fo-stat-card">
+          <div className="fo-stat-content">
+            <p className="fo-stat-label">Total Vehicles</p>
+            <h3 className="fo-stat-value">{totalFleet}</h3>
+            <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
+              <span style={{ fontSize: '0.72rem', padding: '2px 8px', borderRadius: '6px', background: '#f1f5f9', color: '#64748b' }}><Bike size={12} style={{marginRight:2}}/> {countScooty}</span>
+              <span style={{ fontSize: '0.72rem', padding: '2px 8px', borderRadius: '6px', background: '#f1f5f9', color: '#64748b' }}><Car size={12} style={{marginRight:2}}/> {countCar}</span>
+              <span style={{ fontSize: '0.72rem', padding: '2px 8px', borderRadius: '6px', background: '#f1f5f9', color: '#64748b' }}><Bike size={12} style={{marginRight:2}}/> {countBike}</span>
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <span className="badge badge-secondary" style={{ textTransform: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              🛵 {countScooty}
-            </span>
-            <span className="badge badge-secondary" style={{ textTransform: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              🚗 {countCar}
-            </span>
-            <span className="badge badge-secondary" style={{ textTransform: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              🏍️ {countBike}
-            </span>
-          </div>
+          <div className="fo-stat-icon" style={{ background: '#eef2ff' }}><Car size={22} color="#6366f1"/></div>
         </div>
-
-        {/* Available Card */}
-        <div className="glass-panel" style={{ padding: '16px', borderLeft: '4px solid var(--status-available)', background: 'rgba(16, 185, 129, 0.02)' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--status-available)' }}>Available</span>
-          <div style={{ fontSize: '2rem', fontWeight: 'bold', marginTop: '10px', color: 'var(--status-available)' }}>
-            {countAvailable}
+        <div className="fo-stat-card" style={{ borderLeft: '3px solid #10b981' }}>
+          <div className="fo-stat-content">
+            <p className="fo-stat-label" style={{ color: '#10b981' }}>Available</p>
+            <h3 className="fo-stat-value" style={{ color: '#10b981', WebkitTextFillColor: '#10b981' }}>{countAvailable}</h3>
           </div>
+          <div className="fo-stat-icon" style={{ background: '#ecfdf5' }}><Car size={22} color="#10b981"/></div>
         </div>
-
-        {/* Reserved Card */}
-        <div className="glass-panel" style={{ padding: '16px', borderLeft: '4px solid var(--status-reserved)', background: 'rgba(245, 158, 11, 0.02)' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--status-reserved)' }}>Reserved</span>
-          <div style={{ fontSize: '2rem', fontWeight: 'bold', marginTop: '10px', color: 'var(--status-reserved)' }}>
-            {countReserved}
+        <div className="fo-stat-card" style={{ borderLeft: '3px solid #f59e0b' }}>
+          <div className="fo-stat-content">
+            <p className="fo-stat-label" style={{ color: '#f59e0b' }}>Reserved</p>
+            <h3 className="fo-stat-value" style={{ color: '#f59e0b', WebkitTextFillColor: '#f59e0b' }}>{countReserved}</h3>
           </div>
+          <div className="fo-stat-icon" style={{ background: '#fffbeb' }}><Calendar size={22} color="#f59e0b"/></div>
         </div>
-
-        {/* Pre-booked Card */}
-        <div className="glass-panel" style={{ padding: '16px', borderLeft: '4px solid var(--primary)', background: 'rgba(99, 102, 241, 0.02)' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--primary)' }}>Ongoing</span>
-          <div style={{ fontSize: '2rem', fontWeight: 'bold', marginTop: '10px', color: 'var(--primary)' }}>
-            {countPrebooked}
+        <div className="fo-stat-card" style={{ borderLeft: '3px solid #6366f1' }}>
+          <div className="fo-stat-content">
+            <p className="fo-stat-label" style={{ color: '#6366f1' }}>Ongoing</p>
+            <h3 className="fo-stat-value" style={{ color: '#6366f1', WebkitTextFillColor: '#6366f1' }}>{countPrebooked}</h3>
           </div>
+          <div className="fo-stat-icon" style={{ background: '#eef2ff' }}><Gauge size={22} color="#6366f1"/></div>
         </div>
-
       </div>
 
-      {/* 🔍 COLLAPSIBLE FILTER & SEARCH BAR */}
+      {/* COLLAPSIBLE FILTER & SEARCH BAR */}
       <div className="glass-panel" style={{ padding: '16px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <div style={{ flex: 1, position: 'relative' }}>
-            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+            <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}/>
             <input 
               type="text" 
               className="form-control" 
-              placeholder="Search..." 
+              placeholder="Search vehicles by name, number, or brand..." 
               value={searchTerm} 
               onChange={e => setSearchTerm(e.target.value)} 
               style={{ paddingLeft: '36px' }}
@@ -462,23 +452,15 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
           </div>
           <button 
             type="button" 
-            className="btn btn-secondary" 
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '6px', 
-              background: 'rgba(99,102,241,0.08)', 
-              borderColor: 'var(--primary-glow)',
-              color: 'var(--primary)'
-            }}
+            className="fo-btn-outline" 
             onClick={() => setShowFilters(!showFilters)}
           >
-            <span>⚙️</span> {showFilters ? 'Hide' : 'Show'}
+            <SlidersHorizontal size={16}/> {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
 
         {showFilters && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginTop: '14px' }} className="animate-fade">
+          <div className="av-filter-grid animate-fade">
             <div>
               <select className="form-control" value={selectedZone} onChange={e => setSelectedZone(e.target.value)}>
                 <option value="All">All Zones</option>
@@ -550,11 +532,11 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
                     {/* Column 1: VEHICLE (Icon, Name, Number, fuel label) */}
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontSize: '1.5rem' }}>
-                          {category === 'Car' ? '🚗' : category === 'Scooty' ? '🛵' : '🏍️'}
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '8px', background: '#f1f5f9' }}>
+                          {category === 'Car' ? <Car size={20} color="#6366f1"/> : <Bike size={20} color="#6366f1"/>}
                         </span>
                         <div>
-                          <strong style={{ color: 'white', display: 'block' }}>{v.name}</strong>
+                          <strong style={{ color: '#1e293b', display: 'block' }}>{v.name}</strong>
                           <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block' }}>
                             <code>{v.regNumber}</code>
                           </span>
@@ -584,47 +566,47 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
                       <div style={{ display: 'flex', gap: '6px' }}>
                         {isUsable ? (
                           <button 
-                            className="btn btn-success" 
-                            style={{ padding: '6px 10px', fontSize: '0.75rem', background: '#10b981', color: 'white', border: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+                            className="fo-btn-primary" 
+                            style={{ padding: '6px 12px', fontSize: '0.75rem' }}
                             onClick={() => onBookVehicle(v)}
                           >
-                            📅 Book
+                            <Calendar size={13}/> Book
                           </button>
                         ) : (
                           <button 
-                            className="btn btn-secondary" 
-                            style={{ padding: '6px 10px', fontSize: '0.75rem', opacity: 0.4, cursor: 'not-allowed' }}
+                            className="fo-btn-outline" 
+                            style={{ padding: '6px 12px', fontSize: '0.75rem', opacity: 0.4, cursor: 'not-allowed' }}
                             disabled
                           >
-                            📅 Book
+                            <Calendar size={13}/> Book
                           </button>
                         )}
                         
                         <button 
                           className="circle-action-btn view" 
-                          style={{ width: '28px', height: '28px', fontSize: '0.8rem', background: '#2563eb' }}
+                          style={{ width: '28px', height: '28px', background: '#2563eb' }}
                           title="History Log"
                           onClick={() => openHistoryModal(v)}
                         >
-                          👁️
+                          <Eye size={14}/>
                         </button>
                         
                         <button 
                           className="circle-action-btn history" 
-                          style={{ width: '28px', height: '28px', fontSize: '0.8rem', background: '#7c3aed' }}
+                          style={{ width: '28px', height: '28px', background: '#7c3aed' }}
                           title="Edit Details"
                           onClick={() => openEditModal(v)}
                         >
-                          📝
+                          <Pencil size={14}/>
                         </button>
 
                         <button 
                           className="circle-action-btn delete" 
-                          style={{ width: '28px', height: '28px', fontSize: '0.8rem', background: '#dc2626' }}
+                          style={{ width: '28px', height: '28px', background: '#dc2626' }}
                           title="Maintenance Status"
                           onClick={() => openAvailabilityModal(v)}
                         >
-                          🔧
+                          <Wrench size={14}/>
                         </button>
                       </div>
                     </td>
@@ -649,7 +631,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
                     {/* Column 6: LOCATION */}
                     <td>
                       <div>
-                        <strong style={{ color: 'white', display: 'block', fontSize: '0.85rem' }}>{zone}</strong>
+                        <strong style={{ color: '#1e293b', display: 'block', fontSize: '0.85rem' }}>{zone}</strong>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block' }}>{slot}</span>
                         <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {branch} Office, Indore MP
@@ -679,17 +661,17 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
           <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '1000px', height: '80vh', display: 'flex', flexDirection: 'column', padding: 0 }}>
             <div className="modal-header" style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)' }}>
               <h2>Vehicle Configuration ({selectedVehicle.vehicleId})</h2>
-              <button className="btn btn-secondary btn-icon" style={{ borderRadius: '50%' }} onClick={() => setShowEditModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowEditModal(false)}><X size={16}/></button>
             </div>
 
             <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
               <div style={{ width: '220px', borderRight: '1px solid var(--border-light)', background: 'rgba(0,0,0,0.1)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
                 {[
-                  { id: 1, label: '📋 Basic Information' },
-                  { id: 2, label: '🏷️ Pricing Plans' },
-                  { id: 3, label: '💰 Deposit & Payment' },
-                  { id: 4, label: '⚙️ Settings' },
-                  { id: 5, label: '🖼️ Vehicle Images' }
+                  { id: 1, label: 'Basic Information' },
+                  { id: 2, label: 'Pricing Plans' },
+                  { id: 3, label: 'Deposit & Payment' },
+                  { id: 4, label: 'Settings' },
+                  { id: 5, label: 'Vehicle Images' }
                 ].map(t => (
                   <button 
                     key={t.id}
@@ -716,7 +698,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
                   <div style={{ flex: 1 }}>
                     {activeSubTab === 1 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>📋 Basic Fleet Information</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Basic Fleet Information</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                           <div className="form-group">
                             <label>Basic ID</label>
@@ -788,7 +770,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
 
                     {activeSubTab === 2 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>🏷️ pricing plans</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>Pricing Plans</h3>
                         
                         <div style={{ background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-light)', padding: '12px', borderRadius: '6px', marginBottom: '12px' }}>
                           <h4 style={{ fontSize: '0.85rem', color: 'var(--primary)', marginBottom: '8px' }}>Hourly Plan (6 fields)</h4>
@@ -855,7 +837,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
 
                     {activeSubTab === 3 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>💰 Deposit & Payment Settings</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Deposit & Payment Settings</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                           <div style={{ background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px' }}>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginBottom: '12px' }}>
@@ -900,7 +882,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
 
                     {activeSubTab === 4 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>⚙️ Booking Config & Settings</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>Booking Config & Settings</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                           <div className="form-group">
                             <label>Minimum Buffer Time (Minutes)</label>
@@ -929,7 +911,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
 
                     {activeSubTab === 5 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>🖼️ Vehicle Images</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Vehicle Images</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '20px' }}>
                           <div>
                             <div className="form-group">
@@ -947,12 +929,12 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
                               style={{ border: '2px dashed var(--border-light)', padding: '20px', borderRadius: '8px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', marginBottom: '12px' }}
                               onClick={() => document.getElementById('edit-file-picker').click()}
                             >
-                              <span>📁 Click to browse image file</span>
+                              <span style={{display:'flex',alignItems:'center',gap:'6px',justifyContent:'center'}}><Upload size={14}/> Click to browse image file</span>
                               <input id="edit-file-picker" type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleFileChange(e, selectedImageType)} />
                             </div>
 
                             <button type="button" className="btn btn-secondary" style={{ width: '100%' }} onClick={cameraActive ? stopCamera : startCamera}>
-                              📷 {cameraActive ? 'Turn Off Camera' : 'Webcam Capture'}
+                              <Camera size={13} style={{marginRight:4}}/>{cameraActive ? 'Turn Off Camera' : 'Webcam Capture'}
                             </button>
                           </div>
 
@@ -1031,7 +1013,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
             <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '850px', maxHeight: '80vh' }}>
               <div className="modal-header">
                 <h2>Booking Operations History</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setShowHistoryModal(false)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowHistoryModal(false)}><X size={16}/></button>
               </div>
 
               <div className="modal-body" style={{ overflowY: 'auto' }}>
@@ -1117,7 +1099,7 @@ export default function AvailableVehicles({ vehicles, bookings = [], onBookVehic
           <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '400px' }}>
             <div className="modal-header">
               <h2>Set Availability / Maintenance</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setShowAvailabilityModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowAvailabilityModal(false)}><X size={16}/></button>
             </div>
             
             <form onSubmit={handleAvailabilitySubmit}>

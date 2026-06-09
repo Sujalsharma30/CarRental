@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { RefreshCw, Calendar, CheckCircle, DollarSign, Zap, BarChart2, Car, Bike, User, MapPin, Phone, ArrowRight, Lock } from 'lucide-react';
 
 // Embedded high-fidelity styles to match your design guidelines
 const rawStyles = `
   .hisab-container {
     padding: 24px;
-    background: #0f111a;
-    color: #f3f4f6;
+    background: #f8f9fb;
+    color: #1e293b;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
   }
@@ -23,13 +24,13 @@ const rawStyles = `
   }
   .hisab-subtitle {
     font-size: 0.9rem;
-    color: #9ca3af;
+    color: #64748b;
     margin: 4px 0 0 0;
   }
   .hisab-refresh-btn {
     background: transparent;
     border: 1px solid #374151;
-    color: #9ca3af;
+    color: #64748b;
     padding: 8px;
     border-radius: 8px;
     cursor: pointer;
@@ -42,11 +43,11 @@ const rawStyles = `
   .hisab-refresh-btn:hover {
     color: #ffffff;
     border-color: #4b5563;
-    background: rgba(255,255,255,0.03);
+    background: #f8f9fb;
   }
   .hisab-date-picker-bar {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 12px 16px;
     display: flex;
@@ -55,8 +56,8 @@ const rawStyles = `
     margin-bottom: 24px;
   }
   .hisab-date-btn {
-    background: #0f172a;
-    border: 1px solid #334155;
+    background: #f1f5f9;
+    border: 1px solid #e5e7eb;
     color: #94a3b8;
     padding: 8px 14px;
     border-radius: 8px;
@@ -66,8 +67,8 @@ const rawStyles = `
     transition: all 0.2s;
   }
   .hisab-date-btn:hover {
-    color: #ffffff;
-    background: #1e293b;
+    color: #1e293b;
+    background: #ffffff;
     border-color: #475569;
   }
   .hisab-date-input-wrapper {
@@ -76,8 +77,8 @@ const rawStyles = `
     gap: 12px;
   }
   .hisab-date-input {
-    background: #0f172a;
-    border: 1px solid #334155;
+    background: #f1f5f9;
+    border: 1px solid #e5e7eb;
     color: #ffffff;
     padding: 8px 12px;
     border-radius: 8px;
@@ -158,11 +159,11 @@ const rawStyles = `
 
   .hisab-kpi-desc {
     font-size: 0.75rem;
-    color: #9ca3af;
+    color: #64748b;
   }
   .hisab-filters-card {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 20px;
@@ -176,7 +177,7 @@ const rawStyles = `
   .hisab-filters-title {
     font-size: 1rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #1e293b;
     margin: 0;
   }
   .hisab-filters-badges {
@@ -203,14 +204,22 @@ const rawStyles = `
     gap: 12px;
   }
   .hisab-select {
-    background: #0f172a;
-    border: 1px solid #334155;
-    color: #ffffff;
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    color: #1e293b;
     padding: 8px 12px;
     border-radius: 8px;
     outline: none;
     font-size: 0.9rem;
     cursor: pointer;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 32px;
   }
   .hisab-select:focus {
     border-color: #2563eb;
@@ -222,8 +231,8 @@ const rawStyles = `
     margin-bottom: 24px;
   }
   .hisab-item-card {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     overflow: hidden;
     transition: border-color 0.2s;
@@ -246,8 +255,8 @@ const rawStyles = `
   }
   .hisab-item-icon {
     font-size: 1.8rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid #334155;
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -268,12 +277,12 @@ const rawStyles = `
   .hisab-item-title {
     font-size: 1rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #1e293b;
   }
   .hisab-item-reg {
     font-size: 0.8rem;
     color: #94a3b8;
-    background: rgba(255,255,255,0.05);
+    background: #f1f5f9;
     padding: 2px 6px;
     border-radius: 4px;
     font-family: monospace;
@@ -293,7 +302,7 @@ const rawStyles = `
   }
   .hisab-pill.plan { background: rgba(37, 99, 235, 0.15); color: #3b82f6; }
   .hisab-pill.fuel { border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; }
-  .hisab-pill.location { background: rgba(255,255,255,0.05); color: #94a3b8; }
+  .hisab-pill.location { background: #f1f5f9; color: #94a3b8; }
   .hisab-pill.status-completed { background: rgba(16, 185, 129, 0.15); color: #10b981; }
   .hisab-pill.status-ongoing { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
   .hisab-pill.status-reserved { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
@@ -338,11 +347,11 @@ const rawStyles = `
   }
 
   .hisab-details-panel {
-    background: #0f172a;
-    border-top: 1px solid #334155;
+    background: #f1f5f9;
+    border-top: 1px solid #e5e7eb;
     padding: 20px 24px;
     font-size: 0.85rem;
-    color: #cbd5e1;
+    color: #475569;
   }
   .hisab-details-list {
     display: flex;
@@ -354,7 +363,7 @@ const rawStyles = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid #f1f5f9;
     padding-bottom: 8px;
   }
   .hisab-detail-label {
@@ -363,7 +372,7 @@ const rawStyles = `
   }
   .hisab-detail-val {
     font-weight: 600;
-    color: #ffffff;
+    color: #1e293b;
     font-size: 0.85rem;
   }
   .hisab-returned-banner {
@@ -383,7 +392,7 @@ const rawStyles = `
     margin-top: 16px;
   }
   .hisab-subsec-container {
-    border-top: 1px solid #334155;
+    border-top: 1px solid #e5e7eb;
     padding-top: 12px;
   }
   .hisab-subsec-title {
@@ -407,7 +416,7 @@ const rawStyles = `
   
   .hisab-footer-banner {
     background: rgba(37, 99, 235, 0.05);
-    border: 1px dashed rgba(37, 99, 235, 0.2);
+    border: 1px dashed rgba(99,102,241,0.3);
     padding: 16px;
     border-radius: 12px;
     display: flex;
@@ -422,7 +431,7 @@ const rawStyles = `
   .hisab-footer-title {
     font-size: 1rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #1e293b;
   }
   .hisab-footer-desc {
     font-size: 0.75rem;
@@ -438,8 +447,8 @@ const rawStyles = `
     margin-bottom: 20px;
   }
   .hisab-snapshot-card {
-    background: #0f172a;
-    border: 1px solid #334155;
+    background: #f1f5f9;
+    border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 12px;
     text-align: center;
@@ -484,7 +493,7 @@ const rawStyles = `
   }
 
   .hisab-timeline-container {
-    border-left: 2px solid #334155;
+    border-left: 2px solid #e5e7eb;
     margin-left: 10px;
     padding-left: 16px;
     position: relative;
@@ -503,7 +512,7 @@ const rawStyles = `
     position: absolute;
     left: -22px;
     top: 5px;
-    border: 2px solid #0f172a;
+    border: 2px solid #f8f9fb;
   }
   .hisab-timeline-item.completed .hisab-timeline-dot {
     background: #10b981;
@@ -519,7 +528,7 @@ const rawStyles = `
     justify-content: space-between;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #1e293b;
     margin-bottom: 4px;
   }
   .hisab-timeline-time {
@@ -527,7 +536,7 @@ const rawStyles = `
     font-size: 0.75rem;
   }
   .hisab-timeline-desc {
-    color: #cbd5e1;
+    color: #475569;
     font-size: 0.8rem;
   }
   .hisab-timeline-operator {
@@ -541,8 +550,8 @@ const rawStyles = `
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-top: 16px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid #334155;
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 16px;
   }
@@ -562,8 +571,8 @@ const rawStyles = `
   }
 
   .hisab-group-breakdown {
-    border: 1px solid #334155;
-    background: rgba(255,255,255,0.01);
+    border: 1px solid #e5e7eb;
+    background: #f8f9fb;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
@@ -571,11 +580,11 @@ const rawStyles = `
   .hisab-group-title {
     font-size: 0.8rem;
     font-weight: 700;
-    color: #cbd5e1;
+    color: #475569;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 1px solid #334155;
+    border-bottom: 1px solid #e5e7eb;
     padding-bottom: 4px;
     display: flex;
     justify-content: space-between;
@@ -587,8 +596,8 @@ const rawStyles = `
   }
 
   .hisab-activity-summary-row {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px 20px;
     display: flex;
@@ -627,6 +636,64 @@ const rawStyles = `
     border-radius: 6px;
     font-weight: 700;
     font-size: 0.85rem;
+  }
+  /* ── Extra KPI Card: Bookings (Indigo) ── */
+  .hisab-kpi-card.bookings {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.25);
+  }
+  .bookings .hisab-kpi-title { color: #818cf8; }
+  .bookings .hisab-kpi-value { color: #818cf8; }
+
+  /* ── Select full-width fix ── */
+  .hisab-select { width: 100%; }
+
+  /* ── Right-side subval readability ── */
+  .hisab-item-right-subval { font-size: 0.68rem; color: #64748b; margin-top: 2px; }
+
+  /* ════════ RESPONSIVE BREAKPOINTS ════════ */
+  @media (max-width: 1100px) {
+    .hisab-item-right-grid { gap: 14px; }
+    .hisab-item-right-col { min-width: 72px; }
+  }
+  @media (max-width: 900px) {
+    .hisab-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .hisab-filters-row { grid-template-columns: repeat(3, 1fr); }
+    .hisab-item-header { flex-wrap: wrap; gap: 12px; }
+    .hisab-item-right-grid { flex-wrap: wrap; gap: 12px; }
+    .hisab-settlement-grid { grid-template-columns: repeat(2, 1fr); }
+    .hisab-snapshot-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .hisab-container { padding: 16px 12px; }
+    .hisab-filters-row { grid-template-columns: repeat(2, 1fr); }
+    .hisab-activity-summary-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .hisab-activity-summary-stats { gap: 10px; }
+    .hisab-item-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .hisab-item-right-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+    .hisab-item-right-col { text-align: left; min-width: unset; }
+    .hisab-kpi-value { font-size: 1.5rem; }
+    .hisab-timeline-three-col { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 540px) {
+    .hisab-kpi-grid { gap: 10px; }
+    .hisab-kpi-card { min-height: 95px; padding: 14px 12px; }
+    .hisab-kpi-value { font-size: 1.35rem; }
+    .hisab-filters-row { grid-template-columns: 1fr 1fr; }
+    .hisab-item-right-grid { grid-template-columns: repeat(2, 1fr); }
+    .hisab-settlement-grid { grid-template-columns: repeat(2, 1fr); }
+    .hisab-snapshot-grid { grid-template-columns: 1fr; }
+    .hisab-date-picker-bar { padding: 10px 12px; }
+    .hisab-date-input-wrapper { gap: 6px; }
+  }
+  @media (max-width: 400px) {
+    .hisab-container { padding: 12px 8px; }
+    .hisab-kpi-grid { gap: 8px; }
+    .hisab-kpi-value { font-size: 1.2rem; }
+    .hisab-filters-row { grid-template-columns: 1fr; }
+    .hisab-item-right-subval { display: none; }
+    .hisab-activity-summary-stats { gap: 8px; }
+    .hisab-date-text { display: none; }
   }
 `;
 
@@ -1576,7 +1643,7 @@ export default function DailyHisab({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button className="hisab-refresh-btn" title="Refresh Data" onClick={fetchHisabData} disabled={loading}>
-            🔄
+            <RefreshCw size={16}/>
           </button>
         </div>
       </div>
@@ -1604,8 +1671,8 @@ export default function DailyHisab({
       {/* 3. Sleek Financial KPI Cards Grid */}
       <div className="hisab-kpi-grid">
         {/* TODAY'S BOOKINGS */}
-        <div className="hisab-kpi-card collect">
-          <span className="hisab-kpi-title">📅 Today's Bookings</span>
+        <div className="hisab-kpi-card bookings">
+          <span className="hisab-kpi-title" style={{display:'flex',alignItems:'center',gap:'4px'}}><Calendar size={13}/>Today's Bookings</span>
           <span className="hisab-kpi-value">{bookingsCreatedCount}</span>
           <div className="hisab-kpi-desc">
             Bookings created on selected date
@@ -1614,7 +1681,7 @@ export default function DailyHisab({
 
         {/* TODAY'S COMPLETED */}
         <div className="hisab-kpi-card total-in">
-          <span className="hisab-kpi-title">✅ Today's Completed</span>
+          <span className="hisab-kpi-title" style={{display:'flex',alignItems:'center',gap:'4px'}}><CheckCircle size={13}/>Today's Completed</span>
           <span className="hisab-kpi-value">{returnsTodayCount}</span>
           <div className="hisab-kpi-desc">
             Bookings completed on selected date
@@ -1622,9 +1689,9 @@ export default function DailyHisab({
         </div>
 
         {/* TODAY'S EARNINGS */}
-        <div className="hisab-kpi-card total-in">
-          <span className="hisab-kpi-title">💰 Today's Earnings</span>
-          <span className="hisab-kpi-value">₹{todayEarnings.toLocaleString()}</span>
+        <div className="hisab-kpi-card collect">
+          <span className="hisab-kpi-title" style={{display:'flex',alignItems:'center',gap:'4px'}}><DollarSign size={13}/>Today's Earnings</span>
+          <span className="hisab-kpi-value">₹{Math.round(todayEarnings).toLocaleString()}</span>
           <div className="hisab-kpi-desc">
             Sum of completed Actual Rental Bills
           </div>
@@ -1632,7 +1699,7 @@ export default function DailyHisab({
 
         {/* ONGOING BOOKINGS */}
         <div className="hisab-kpi-card ongoing">
-          <span className="hisab-kpi-title">⚡ Ongoing Bookings</span>
+          <span className="hisab-kpi-title" style={{display:'flex',alignItems:'center',gap:'4px'}}><Zap size={13}/>Ongoing Bookings</span>
           <span className="hisab-kpi-value">{ongoingBookingsCount}</span>
           <div className="hisab-kpi-desc">
             Active ongoing bookings count
@@ -1642,7 +1709,7 @@ export default function DailyHisab({
 
       {/* Daily Activity Summary Row */}
       <div className="hisab-activity-summary-row">
-        <span className="hisab-activity-summary-title">📊 Daily Activity Summary ({workerFilter === 'All' ? 'All Workers' : workerFilter})</span>
+        <span className="hisab-activity-summary-title"><BarChart2 size={16} style={{marginRight: 4}}/>Daily Activity Summary ({workerFilter === 'All' ? 'All Workers' : workerFilter})</span>
         <div className="hisab-activity-summary-stats">
           <div className="hisab-activity-stat-item">
             <span className="hisab-activity-stat-label">Extensions:</span>
@@ -1873,7 +1940,7 @@ export default function DailyHisab({
                 {/* Left Side: Vehicle Info & Pills */}
                 <div className="hisab-item-left">
                   <div className="hisab-item-icon">
-                    {category === 'Car' ? '🚗' : category === 'Scooty' ? '🛵' : '🏍️'}
+                    {category === 'Car' ? <Car size={22} color="#6366f1"/> : <Bike size={22} color="#6366f1"/>}
                   </div>
                   <div className="hisab-item-info">
                     <div className="hisab-item-title-row">
@@ -1881,10 +1948,10 @@ export default function DailyHisab({
                       <span className="hisab-item-reg">{vehicle?.regNumber || b.vehicleRegNumber}</span>
                     </div>
                     <div className="hisab-item-pills">
-                      <span className="hisab-pill location">👤 {b.customer?.name || b.customerName}</span>
+                      <span className="hisab-pill location" style={{display:'inline-flex',alignItems:'center',gap:'3px'}}><User size={10}/>{b.customer?.name || b.customerName}</span>
                       <span className="hisab-pill plan">{b.selectedPlan?.planType || '24-Hour'}</span>
                       <span className="hisab-pill fuel">{fuel}</span>
-                      <span className="hisab-pill location">📍 {zone}</span>
+                      <span className="hisab-pill location" style={{display:'inline-flex',alignItems:'center',gap:'3px'}}><MapPin size={10}/>{zone}</span>
                       <span className={`hisab-pill status-${b.status.toLowerCase()}`}>{b.status}</span>
                       {isNewBooking && <span className="hisab-pill new-badge">NEW</span>}
                       {isReturnBooking && <span className="hisab-pill returned-badge">RETURNED</span>}
@@ -1992,7 +2059,7 @@ export default function DailyHisab({
                             {snap.originalPlan !== snap.currentPlan ? (
                               <>
                                 <span className="hisab-snapshot-old">{snap.originalPlan}</span>
-                                <span className="hisab-snapshot-arrow">➔</span>
+                                <span className="hisab-snapshot-arrow"><ArrowRight size={14}/></span>
                                 <span className="hisab-snapshot-new">{snap.currentPlan}</span>
                               </>
                             ) : (
@@ -2006,7 +2073,7 @@ export default function DailyHisab({
                             {snap.originalDuration !== snap.currentDuration ? (
                               <>
                                 <span className="hisab-snapshot-old">{snap.originalDuration} hrs</span>
-                                <span className="hisab-snapshot-arrow">➔</span>
+                                <span className="hisab-snapshot-arrow"><ArrowRight size={14}/></span>
                                 <span className="hisab-snapshot-new">{snap.currentDuration} hrs</span>
                               </>
                             ) : (
@@ -2020,7 +2087,7 @@ export default function DailyHisab({
                             {snap.originalDeposit !== snap.currentDeposit ? (
                               <>
                                 <span className="hisab-snapshot-old">₹{snap.originalDeposit}</span>
-                                <span className="hisab-snapshot-arrow">➔</span>
+                                <span className="hisab-snapshot-arrow"><ArrowRight size={14}/></span>
                                 <span className="hisab-snapshot-new">₹{snap.currentDeposit}</span>
                               </>
                             ) : (
@@ -2101,7 +2168,7 @@ export default function DailyHisab({
                           <div className="hisab-detail-row">
                             <span className="hisab-detail-label">Rental Period</span>
                             <span className="hisab-detail-val" style={{ fontSize: '0.8rem' }}>
-                              {formatDateTime(b.actualPickupDate || b.rentalPeriod?.actualPickupDate || b.rentalPeriod?.startDate)}&nbsp;➔&nbsp;{formatDateTime(b.actualReturnDate || b.rentalPeriod?.actualReturnDate || b.rentalPeriod?.expectedEndDate)}
+                              {formatDateTime(b.actualPickupDate || b.rentalPeriod?.actualPickupDate || b.rentalPeriod?.startDate)}&nbsp;→&nbsp;{formatDateTime(b.actualReturnDate || b.rentalPeriod?.actualReturnDate || b.rentalPeriod?.expectedEndDate)}
                             </span>
                           </div>
                           <div className="hisab-detail-row">
@@ -2112,7 +2179,7 @@ export default function DailyHisab({
                             <span className="hisab-detail-label">Customer Phone</span>
                             <span className="hisab-detail-val">
                               <a href={`tel:${b.customer?.phone || b.customerPhone}`} style={{ color: '#2563eb', textDecoration: 'none' }}>
-                                📞 {b.customer?.phone || b.customerPhone}
+                                <span style={{display:'inline-flex',alignItems:'center',gap:'4px'}}><Phone size={12}/>{b.customer?.phone || b.customerPhone}</span>
                               </a>
                             </span>
                           </div>
@@ -2359,7 +2426,7 @@ export default function DailyHisab({
       {/* Handover Deposit Recording panel (Admins only, if worker selected) */}
       {workerFilter !== 'All' && (
         <div className="glass-panel" style={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '12px', padding: '20px' }}>
-          <h3 style={{ fontSize: '1.1rem', color: '#ffffff', marginBottom: '16px' }}>💰 Record Worker Cash Handover</h3>
+          <h3 style={{ fontSize: '1.1rem', color: '#ffffff', marginBottom: '16px', display:'flex', alignItems:'center', gap:'8px' }}><DollarSign size={18}/> Record Worker Cash Handover</h3>
           
           <form onSubmit={handleDepositSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'flex-end' }}>
             <div className="form-group" style={{ flex: '1 1 200px', marginBottom: 0 }}>
@@ -2397,7 +2464,7 @@ export default function DailyHisab({
               </button>
             ) : (
               <div style={{ fontSize: '0.75rem', color: '#64748b', padding: '10px', background: '#0f172a', border: '1px dashed #334155', borderRadius: '6px', textAlign: 'center' }}>
-                🔒 deposit logs restrict to Admins.
+                <Lock size={13} style={{marginRight: 4}}/> Deposit logs restricted to Admins.
               </div>
             )}
           </form>

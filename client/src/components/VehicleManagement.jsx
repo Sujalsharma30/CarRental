@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Search, SlidersHorizontal, Plus, Car, Bike, Eye, Clock, ToggleLeft, MapPin, Trash2, X, Pencil, Camera, Upload, AlertTriangle } from 'lucide-react';
 
-export default function VehicleManagement({ vehicles, bookings = [], onAddVehicle, onUpdateVehicle, onToggleStatus }) {
+export default function VehicleManagement({ vehicles, bookings = [], onAddVehicle, onUpdateVehicle, onToggleStatus, autoOpenAdd, onAutoOpenConsumed }) {
   // Search & Filter state variables
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedZone, setSelectedZone] = useState('All Zones');
@@ -8,6 +9,14 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [sortBy, setSortBy] = useState('Newest First');
   const [showFilters, setShowFilters] = useState(true);
+
+  // Auto-open Add modal when triggered from Header
+  useEffect(() => {
+    if (autoOpenAdd) {
+      setShowAddModal(true);
+      if (onAutoOpenConsumed) onAutoOpenConsumed();
+    }
+  }, [autoOpenAdd]);
 
   // Modal display controllers
   const [showAddModal, setShowAddModal] = useState(false);
@@ -598,41 +607,29 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
   return (
     <div className="animate-slide-up">
       {/* 1. MODULE HEADER */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+      <div className="fo-page-header">
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>Vehicle Management</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Manage your vehicle inventory</p>
+          <h1 className="fo-page-title">Vehicle Management</h1>
+          <p className="fo-breadcrumb">Manage your vehicle inventory</p>
         </div>
-        <button className="btn btn-primary" onClick={openAddModal}>
-          <span>➕</span> Add Vehicle
+        <button className="fo-btn-primary" onClick={openAddModal}>
+          <Plus size={16}/> Add Vehicle
         </button>
       </div>
 
       {/* 2. SEARCH & FILTERS SECTION */}
       <div className="glass-panel" style={{ padding: '16px 20px', marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: showFilters ? '16px' : '0' }}>
-          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)', margin: 0 }}>Filters & Search</h3>
-          <button 
-            className="btn btn-secondary" 
-            style={{ 
-              padding: '6px 12px', 
-              fontSize: '0.85rem', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '6px', 
-              background: 'rgba(99, 102, 241, 0.1)', 
-              borderColor: 'var(--primary-glow)' 
-            }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <span>🔍</span> {showFilters ? 'Hide Filters' : 'Show Filters'}
+          <h3 className="fo-section-title" style={{ margin: 0 }}>Filters & Search</h3>
+          <button className="fo-btn-outline" onClick={() => setShowFilters(!showFilters)}>
+            <SlidersHorizontal size={16}/> {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
         </div>
 
         {showFilters && (
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: '12px', alignItems: 'center' }} className="animate-fade">
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+              <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}/>
               <input 
                 type="text" 
                 className="form-control" 
@@ -703,11 +700,11 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
 
             {/* Circular Actions Floating Top-Right */}
             <div className="card-header-actions">
-              <button className="circle-action-btn view" title="Details / Config" onClick={() => openEditModal(v)}>👁️</button>
-              <button className="circle-action-btn history" title="Rent History" onClick={() => openHistoryModal(v)}>🕒</button>
-              <button className="circle-action-btn availability" title="Booking Permission" onClick={() => openAvailabilityModal(v)}>🟢</button>
-              <button className="circle-action-btn location" title="Coordinate Location" onClick={() => openLocationModal(v)}>📍</button>
-              <button className="circle-action-btn delete" title="Delete Fleet Item" onClick={() => openDeleteModal(v)}>🗑️</button>
+              <button className="circle-action-btn view" title="Details / Config" onClick={() => openEditModal(v)}><Eye size={14}/></button>
+              <button className="circle-action-btn history" title="Rent History" onClick={() => openHistoryModal(v)}><Clock size={14}/></button>
+              <button className="circle-action-btn availability" title="Booking Permission" onClick={() => openAvailabilityModal(v)}><ToggleLeft size={14}/></button>
+              <button className="circle-action-btn location" title="Coordinate Location" onClick={() => openLocationModal(v)}><MapPin size={14}/></button>
+              <button className="circle-action-btn delete" title="Delete Fleet Item" onClick={() => openDeleteModal(v)}><Trash2 size={14}/></button>
             </div>
 
             {/* Vehicle Image View */}
@@ -730,7 +727,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                   ₹{v.pricingPlans?.twentyFourHour?.baseRate || v.perDayRate || 0}/day • ₹{v.pricingPlans?.hourly?.rate || v.perHourRate || 0}/hr
                 </div>
                 <div className="vehicle-card-info-zone">
-                  📍 {v.locationDetails?.currentZone || v.location || 'Vijay Nagar'}
+                  <MapPin size={12} style={{marginRight: 2}}/> {v.locationDetails?.currentZone || v.location || 'Vijay Nagar'}
                 </div>
               </div>
             </div>
@@ -754,7 +751,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
           <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '650px' }}>
             <div className="modal-header">
               <h2>Register New Vehicle</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setShowAddModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowAddModal(false)}><X size={16}/></button>
             </div>
             
             <form onSubmit={handleAddSubmit}>
@@ -900,7 +897,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
             
             <div className="modal-header" style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)' }}>
               <h2>Vehicle Configuration ({selectedVehicle.vehicleId})</h2>
-              <button className="btn btn-secondary btn-icon" style={{ borderRadius: '50%' }} onClick={() => setShowEditModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowEditModal(false)}><X size={16}/></button>
             </div>
 
             <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
@@ -908,11 +905,11 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
               {/* Tab Selector Sidebar */}
               <div style={{ width: '220px', borderRight: '1px solid var(--border-light)', background: 'rgba(0,0,0,0.1)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
                 {[
-                  { id: 1, label: '📋 Basic Information' },
-                  { id: 2, label: '🏷️ Pricing Plans' },
-                  { id: 3, label: '💰 Deposit & Payment' },
-                  { id: 4, label: '⚙️ Settings' },
-                  { id: 5, label: '🖼️ Vehicle Images' }
+                  { id: 1, label: 'Basic Information' },
+                  { id: 2, label: 'Pricing Plans' },
+                  { id: 3, label: 'Deposit & Payment' },
+                  { id: 4, label: 'Settings' },
+                  { id: 5, label: 'Vehicle Images' }
                 ].map(t => (
                   <button 
                     key={t.id}
@@ -943,7 +940,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                     {/* TAB 1: BASIC INFORMATION */}
                     {activeSubTab === 1 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>📋 Basic Fleet Information</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Basic Fleet Information</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                           <div className="form-group">
                             <label>Basic ID</label>
@@ -1094,7 +1091,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                     {/* TAB 2: PRICING PLANS */}
                     {activeSubTab === 2 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>🏷️ Multi-Plan Pricing Parameters</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>Multi-Plan Pricing Parameters</h3>
                         
                         {/* 1. Hourly Plan */}
                         <div style={{ background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-light)', padding: '12px', borderRadius: '6px', marginBottom: '12px' }}>
@@ -1269,7 +1266,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                     {/* TAB 3: DEPOSIT & PAYMENT */}
                     {activeSubTab === 3 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>💰 Deposit & Advance reservation</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Deposit &amp; Advance Reservation</h3>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                           <div style={{ background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px' }}>
@@ -1350,7 +1347,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                     {/* TAB 4: SETTINGS */}
                     {activeSubTab === 4 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>⚙️ Booking settings</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--secondary)', marginBottom: '16px' }}>Booking Settings</h3>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                           <div className="form-group">
@@ -1419,7 +1416,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                     {/* TAB 5: IMAGES */}
                     {activeSubTab === 5 && (
                       <div className="animate-fade">
-                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>🖼️ Vehicle Gallery Uploads</h3>
+                        <h3 style={{ fontSize: '1rem', color: 'var(--accent)', marginBottom: '16px' }}>Vehicle Gallery Uploads</h3>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '20px' }}>
                           <div>
@@ -1468,8 +1465,8 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                               }}
                               onClick={() => document.getElementById('file-picker-elem').click()}
                             >
-                              <span style={{ fontSize: '1.5rem', display: 'block', marginBottom: '8px' }}>📁</span>
-                              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Drag & Drop Image or Click to Browse</span>
+                              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '8px' }}><Upload size={20} style={{opacity:0.5}}/></span>
+                              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Drag &amp; Drop Image or Click to Browse</span>
                               <input 
                                 id="file-picker-elem"
                                 type="file" 
@@ -1486,7 +1483,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
                               style={{ width: '100%', marginBottom: '8px' }}
                               onClick={cameraActive ? stopCamera : startCamera}
                             >
-                              📷 {cameraActive ? 'Turn Off Camera' : 'Take Picture with Camera'}
+                              <Camera size={13} style={{marginRight:4}}/>{cameraActive ? 'Turn Off Camera' : 'Take Picture with Camera'}
                             </button>
                           </div>
 
@@ -1610,7 +1607,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
             <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '900px', maxHeight: '85vh' }}>
               <div className="modal-header">
                 <h2>Vehicle Operations History</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setShowHistoryModal(false)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowHistoryModal(false)}><X size={16}/></button>
               </div>
 
               <div className="modal-body" style={{ overflowY: 'auto' }}>
@@ -1750,7 +1747,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
           <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '450px' }}>
             <div className="modal-header">
               <h2>Booking Availability Status</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setShowAvailabilityModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowAvailabilityModal(false)}><X size={16}/></button>
             </div>
 
             <form onSubmit={handleAvailabilitySubmit}>
@@ -1808,7 +1805,7 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
           <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '500px' }}>
             <div className="modal-header">
               <h2>Vehicle Coordinate Location</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setShowLocationModal(false)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowLocationModal(false)}><X size={16}/></button>
             </div>
 
             <form onSubmit={handleLocationSubmit}>
@@ -1910,13 +1907,13 @@ export default function VehicleManagement({ vehicles, bookings = [], onAddVehicl
             <div className="modal-content glass-panel" style={{ width: '90%', maxWidth: '450px' }}>
               <div className="modal-header">
                 <h2>Delete Vehicle</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setShowDeleteModal(false)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setShowDeleteModal(false)}><X size={16}/></button>
               </div>
 
               <form onSubmit={handleDeleteSubmit}>
                 <div className="modal-body">
                   <div style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.2)', padding: '16px', borderRadius: '6px', marginBottom: '16px' }}>
-                    <h3 style={{ color: 'var(--status-cancelled)', fontSize: '1rem', marginBottom: '8px' }}>⚠️ Warning: Dangerous Action</h3>
+                    <h3 style={{ color: 'var(--status-cancelled)', fontSize: '1rem', marginBottom: '8px', display:'flex', alignItems:'center', gap:'6px' }}><AlertTriangle size={16}/> Warning: Dangerous Action</h3>
                     <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                       You are about to permanently delete <strong>{selectedVehicle.name}</strong> (<code>{selectedVehicle.regNumber}</code>) from the ERP node registry.
                     </p>

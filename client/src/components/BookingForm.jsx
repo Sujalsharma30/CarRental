@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Bike, X, User, MapPin, Key, Calendar, Tag, Shield, Banknote, BarChart2, FileText, Camera, StickyNote, Info, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function BookingForm({ vehicle, onConfirmBooking, onCancel, currentWorker }) {
   // Section 1: Customer Information
@@ -708,13 +709,13 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
       {/* HEADER SECTION */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-light)', paddingBottom: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontSize: '1.75rem' }}>🛵</span>
+          <Bike size={28} color="var(--primary)"/>
           <div>
             <h3 style={{ fontSize: '1.2rem', margin: 0, color: 'var(--text-primary)' }}>{vehicle.name}</h3>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}><code>{vehicle.regNumber}</code></span>
           </div>
         </div>
-        <button className="btn btn-secondary btn-icon" onClick={onCancel} style={{ borderRadius: '50%' }}>✕</button>
+        <button className="fo-btn-outline" onClick={onCancel} style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={16}/></button>
       </div>
 
       <form onSubmit={handleCheckoutSubmit}>
@@ -722,7 +723,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 1: CUSTOMER INFORMATION */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            👤 Customer Information
+            <User size={15}/> Customer Information
           </h4>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
@@ -752,8 +753,8 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
               style={{ width: '100%', padding: '6px 12px', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
               onClick={() => setShowOptionalDetails(!showOptionalDetails)}
             >
-              <span>📍 Optional Details (Email & Address)</span>
-              <span>{showOptionalDetails ? '▲' : '▼'}</span>
+              <MapPin size={13}/> Optional Details (Email & Address)
+              {showOptionalDetails ? <ChevronUp size={13}/> : <ChevronDown size={13}/>}
             </button>
 
             {showOptionalDetails && (
@@ -788,7 +789,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 2: VEHICLE HANDOVER */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🔑 Vehicle Handover
+            <Key size={15}/> Vehicle Handover
           </h4>
           <div style={{ display: 'grid', gridTemplateColumns: isScooty ? '1.2fr 1fr' : '1fr', gap: '16px', alignItems: 'center' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
@@ -819,7 +820,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 3: RENTAL PERIOD */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            📅 Rental Period
+            <Calendar size={15}/> Rental Period
           </h4>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'center' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
@@ -848,7 +849,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 4: SELECT PLAN */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🏷️ Select Pricing Plan
+            <Tag size={15}/> Select Pricing Plan
           </h4>
           
           {(() => {
@@ -934,10 +935,10 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             <div style={{ opacity: 0.25, border: '1px solid var(--border-light)', background: 'rgba(255,255,255,0.01)', padding: '8px', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              📅 Weekly Plan (Future coming soon)
+              Weekly Plan (Future coming soon)
             </div>
             <div style={{ opacity: 0.25, border: '1px solid var(--border-light)', background: 'rgba(255,255,255,0.01)', padding: '8px', borderRadius: '6px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              📅 Monthly Plan (Future coming soon)
+              Monthly Plan (Future coming soon)
             </div>
           </div>
         </div>
@@ -945,7 +946,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 5: ADD-ONS (HELMET & DEPOSIT SECTOR SPLIT) */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            🛡️ Add-ons & Deposit Details
+            <Shield size={15}/> Add-ons & Deposit Details
           </h4>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '16px', marginBottom: '14px' }}>
@@ -1046,7 +1047,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 6: RENTAL COST PAYMENT */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            💵 Rental Cost Payment
+            <Banknote size={15}/> Rental Cost Payment
           </h4>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '12px' }}>
@@ -1138,7 +1139,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                 </select>
               </div>
               <div style={{ gridColumn: 'span 2', fontSize: '0.75rem', color: 'var(--status-available)', marginTop: '4px' }}>
-                💡 Note: Discount applies strictly to the Rental Cost (₹{bill.cost}) before deposit and helmet fees.
+                <Info size={13} style={{marginRight: 4}}/> Note: Discount applies strictly to the Rental Cost (₹{bill.cost}) before deposit and helmet fees.
               </div>
             </div>
           </div>
@@ -1153,7 +1154,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
             onClick={() => setShowBillingSummary(!showBillingSummary)}
           >
             <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              📊 Billing Summary
+              <BarChart2 size={15}/> Billing Summary
             </h4>
             <span style={{ fontSize: '1rem', color: 'var(--accent)', fontWeight: 'bold' }}>
               ₹{totalBookingValue} {showBillingSummary ? '▲' : '▼'}
@@ -1171,7 +1172,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                   {/* Card 1: Rental Summary */}
                   <div style={{ background: 'rgba(255, 255, 255, 0.015)', border: '1px solid rgba(255, 255, 255, 0.04)', borderRadius: '6px', padding: '10px' }}>
                     <div style={{ fontWeight: 'bold', color: 'var(--primary)', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: '4px', marginBottom: '6px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      📋 Rental Summary
+                      Rental Summary
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                       <span style={{ color: 'var(--text-secondary)' }}>Duration:</span>
@@ -1186,7 +1187,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                   {/* Card 2: Cost Breakdown */}
                   <div style={{ background: 'rgba(255, 255, 255, 0.015)', border: '1px solid rgba(255, 255, 255, 0.04)', borderRadius: '6px', padding: '10px' }}>
                     <div style={{ fontWeight: 'bold', color: 'var(--primary)', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: '4px', marginBottom: '6px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      💰 Cost Breakdown
+                      Cost Breakdown
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                       <span style={{ color: 'var(--text-secondary)' }}>Base Rental Cost:</span>
@@ -1223,7 +1224,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                   {/* Card 3: Collection Details */}
                   <div style={{ background: 'rgba(255, 255, 255, 0.015)', border: '1px solid rgba(255, 255, 255, 0.04)', borderRadius: '6px', padding: '10px' }}>
                     <div style={{ fontWeight: 'bold', color: 'var(--primary)', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: '4px', marginBottom: '6px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      💳 Upfront Collection
+                      Upfront Collection
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                       <span style={{ color: 'var(--text-secondary)' }}>Rental Paid:</span>
@@ -1257,7 +1258,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                   {/* Card 4: Overall Totals */}
                   <div style={{ background: 'rgba(255, 255, 255, 0.015)', border: '1px solid rgba(255, 255, 255, 0.04)', borderRadius: '6px', padding: '10px' }}>
                     <div style={{ fontWeight: 'bold', color: 'var(--primary)', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: '4px', marginBottom: '6px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      📊 Booking Value & Status
+                      Booking Value & Status
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                       <span style={{ color: 'var(--text-secondary)' }}>Booking Value Total:</span>
@@ -1279,14 +1280,14 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
 
               {isScooty && includeFuel && (
                 <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'space-between', padding: '6px 10px', borderRadius: '4px', background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.15)', color: '#93c5fd' }}>
-                  <span>⛽ Per KM Fuel Surcharge (Billed at return):</span>
+                  <span>Per KM Fuel Surcharge (Billed at return):</span>
                   <strong>₹{vehicle.pricingPlans?.hourly?.fuelChargePerKm || 2}/KM</strong>
                 </div>
               )}
 
               {depositCollected < bill.deposit && (
                 <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '4px', background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)' }}>
-                  ⚠️ Warning: Deposit collected now (₹{depositCollected}) is less than the required Security Deposit (₹{bill.deposit}).
+                  <AlertTriangle size={13} style={{marginRight: 4}}/> Warning: Deposit collected now (₹{depositCollected}) is less than the required Security Deposit (₹{bill.deposit}).
                 </div>
               )}
             </div>
@@ -1302,9 +1303,9 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
             onClick={() => setShowDocuments(!showDocuments)}
           >
             <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              📁 Upload Customer Documents (Optional)
+              <FileText size={15}/> Upload Customer Documents (Optional)
             </h4>
-            <span>{showDocuments ? '▲' : '▼'}</span>
+            {showDocuments ? <ChevronUp size={14}/> : <ChevronDown size={14}/>}
           </button>
 
           {showDocuments && (
@@ -1332,7 +1333,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                           style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(239, 68, 68, 0.8)', border: 'none', borderRadius: '50%', width: '20px', height: '20px', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem' }}
                           onClick={() => saveDocImage('')}
                         >
-                          ✕
+                          <X size={10}/>
                         </button>
                       </div>
                     ) : (
@@ -1364,7 +1365,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                         style={{ flex: 1, padding: '4px 8px', fontSize: '0.7rem', height: '28px', background: 'rgba(16,185,129,0.1)', borderColor: 'var(--status-available-border)', color: 'var(--status-available)' }}
                         onClick={() => startCamera(doc.id)}
                       >
-                        📷 Camera
+                        <Camera size={13} style={{marginRight: 4}}/> Camera
                       </button>
                     </div>
                   </div>
@@ -1377,7 +1378,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
                   <div className="glass-panel" style={{ width: '90%', maxWidth: '500px', padding: '16px', background: 'var(--bg-glass)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <h4 style={{ margin: 0 }}>Document Scan: {activeDocType.toUpperCase()}</h4>
-                      <button type="button" className="btn btn-secondary btn-icon" onClick={stopCamera}>✕</button>
+                      <button type="button" className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={stopCamera}><X size={16}/></button>
                     </div>
 
                     <div style={{ background: '#000', borderRadius: '8px', overflow: 'hidden', height: '300px', position: 'relative' }}>
@@ -1404,7 +1405,7 @@ export default function BookingForm({ vehicle, onConfirmBooking, onCancel, curre
         {/* SECTION 9: ADDITIONAL NOTES */}
         <div style={{ background: 'rgba(255, 255, 255, 0.01)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '8px', marginBottom: '20px' }}>
           <h4 style={{ color: 'var(--primary)', fontSize: '0.95rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            📝 Additional Notes (Optional)
+            <StickyNote size={15}/> Additional Notes (Optional)
           </h4>
           <div className="form-group">
             <label>Booking Notes / Handover Comments</label>

@@ -12,6 +12,14 @@ export default function App() {
   const [userRole, setUserRole] = useState('admin'); // 'admin' | 'worker'
   const [currentWorker, setCurrentWorker] = useState('Ramesh Kumar');
   const [currentTab, setCurrentTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [pendingAddVehicle, setPendingAddVehicle] = useState(false);
+
+  // Called by Header's "Add Vehicle" button
+  const handleHeaderAddVehicle = () => {
+    setCurrentTab('vehicles');
+    setPendingAddVehicle(true);
+  };
 
   const [vehicles, setVehicles] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -561,6 +569,8 @@ export default function App() {
             onAddVehicle={handleAddVehicle}
             onUpdateVehicle={handleUpdateVehicle}
             onToggleStatus={handleToggleVehicleStatus}
+            autoOpenAdd={pendingAddVehicle}
+            onAutoOpenConsumed={() => setPendingAddVehicle(false)}
           />
         );
       case 'bookings':
@@ -607,7 +617,9 @@ export default function App() {
       <Sidebar 
         currentTab={currentTab} 
         setCurrentTab={setCurrentTab} 
-        userRole={userRole} 
+        userRole={userRole}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
       />
 
       {/* Main Content Area */}
@@ -619,6 +631,8 @@ export default function App() {
           currentWorker={currentWorker}
           setCurrentWorker={setCurrentWorker}
           dbStatus={dbStatus}
+          onMenuClick={() => setSidebarOpen(true)}
+          onAddVehicle={handleHeaderAddVehicle}
         />
 
         {/* Dynamic Route Screen */}

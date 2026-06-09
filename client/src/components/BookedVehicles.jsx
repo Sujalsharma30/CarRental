@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RefreshCw, AlertTriangle, Clock, Calendar, CheckCircle, Search, SlidersHorizontal, Car, Bike, User, Phone, MapPin, ArrowRight, Banknote, CreditCard, Wallet, Monitor, Eye, Pencil, RotateCw, Truck, Printer, FileText, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function BookedVehicles({ 
   bookings, 
@@ -1577,7 +1578,7 @@ export default function BookedVehicles({
     const replaceRevision = buildRevision({
       booking: selectedBooking,
       actionType: 'Replace',
-      description: `Vehicle Replaced: ${oldVehicleName} [${oldVehicleReg}] ➔ ${newVehicle.name} [${newVehicleReg}]. Closing Meter: ${oldVehicleClosingMeter} KM. Starting Meter: ${newVehicleStartingMeter} KM. Reason: ${replacementReason}.`,
+      description: `Vehicle Replaced: ${oldVehicleName} [${oldVehicleReg}] → ${newVehicle.name} [${newVehicleReg}]. Closing Meter: ${oldVehicleClosingMeter} KM. Starting Meter: ${newVehicleStartingMeter} KM. Reason: ${replacementReason}.`,
       operator: currentWorker || 'System',
       reason: replacementReason,
       overrides: revisionOverrides
@@ -1720,7 +1721,7 @@ export default function BookedVehicles({
       const rev = buildRevision({
         booking: currentTempBooking,
         actionType: 'CustomerDetailsUpdated',
-        description: `Customer details updated:\n` + customerChanges.map(c => `• ${c.fieldName}: ${c.oldValue} ➔ ${c.newValue}`).join('\n'),
+        description: `Customer details updated:\n` + customerChanges.map(c => `- ${c.fieldName}: ${c.oldValue} → ${c.newValue}`).join('\n'),
         operator: currentWorker || 'System',
         reason: 'Profile Correction',
         overrides: {
@@ -1735,7 +1736,7 @@ export default function BookedVehicles({
       const rev = buildRevision({
         booking: currentTempBooking,
         actionType: 'BookingDetailsUpdated',
-        description: `Booking parameters updated:\n` + bookingChanges.map(c => `• ${c.fieldName}: ${c.oldValue} ➔ ${c.newValue}`).join('\n'),
+        description: `Booking parameters updated:\n` + bookingChanges.map(c => `- ${c.fieldName}: ${c.oldValue} → ${c.newValue}`).join('\n'),
         operator: currentWorker || 'System',
         reason: 'Details Correction',
         overrides: {
@@ -1759,7 +1760,7 @@ export default function BookedVehicles({
       const rev = buildRevision({
         booking: currentTempBooking,
         actionType: 'RentalCostChanged',
-        description: `Rental Cost/Discount details updated:\n` + pricingChanges.map(c => `• ${c.fieldName}: ${c.oldValue} ➔ ${c.newValue}`).join('\n'),
+        description: `Rental Cost/Discount details updated:\n` + pricingChanges.map(c => `- ${c.fieldName}: ${c.oldValue} → ${c.newValue}`).join('\n'),
         operator: currentWorker || 'System',
         reason: 'Price Override',
         overrides: {
@@ -2398,44 +2399,44 @@ export default function BookedVehicles({
             if (name === 'helmetsCount') {
               impacting.push({
                 title: 'Helmet Count',
-                detail: `${change.oldValue} ➔ ${change.newValue}`
+                detail: `${change.oldValue} → ${change.newValue}`
               });
             } else if (name === 'discount') {
               impacting.push({
                 title: 'Discount',
-                detail: `₹${change.oldValue} ➔ ₹${change.newValue}`
+                detail: `₹${change.oldValue} → ₹${change.newValue}`
               });
             } else if (name === 'securityDeposit') {
               impacting.push({
                 title: 'Security Deposit',
-                detail: `₹${change.oldValue} ➔ ₹${change.newValue}`
+                detail: `₹${change.oldValue} → ₹${change.newValue}`
               });
             } else if (name === 'phone') {
               impacting.push({
                 title: 'Customer Phone Updated',
-                detail: `${change.oldValue} ➔ ${change.newValue}`
+                detail: `${change.oldValue} → ${change.newValue}`
               });
             } else if (['street', 'city', 'state', 'pincode'].includes(name)) {
-              addressChanges.push(`${name}: ${change.oldValue} ➔ ${change.newValue}`);
+              addressChanges.push(`${name}: ${change.oldValue} → ${change.newValue}`);
             } else if (name === 'baseFare') {
               impacting.push({
                 title: 'Base Fare',
-                detail: `₹${change.oldValue} ➔ ₹${change.newValue}`
+                detail: `₹${change.oldValue} → ₹${change.newValue}`
               });
             } else if (name === 'planType') {
               impacting.push({
                 title: 'Plan Type',
-                detail: `${change.oldValue} ➔ ${change.newValue}`
+                detail: `${change.oldValue} → ${change.newValue}`
               });
             } else if (name === 'pickupDate') {
               impacting.push({
                 title: 'Pickup Time',
-                detail: `${new Date(change.oldValue).toLocaleString()} ➔ ${new Date(change.newValue).toLocaleString()}`
+                detail: `${new Date(change.oldValue).toLocaleString()} → ${new Date(change.newValue).toLocaleString()}`
               });
             } else if (name === 'expectedDropDate') {
               impacting.push({
                 title: 'Expected Return Time',
-                detail: `${new Date(change.oldValue).toLocaleString()} ➔ ${new Date(change.newValue).toLocaleString()}`
+                detail: `${new Date(change.oldValue).toLocaleString()} → ${new Date(change.newValue).toLocaleString()}`
               });
             }
           });
@@ -2742,11 +2743,11 @@ export default function BookedVehicles({
                 {stats.active} Active Bookings
               </span>
               <button 
-                className="btn btn-secondary" 
+                className="fo-btn-outline" 
                 onClick={() => handleClearFilters()}
-                style={{ padding: '6px 12px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ padding: '6px 12px', fontSize: '0.8rem' }}
               >
-                🔄 Refresh
+                <RefreshCw size={14}/> Refresh
               </button>
             </div>
           </div>
@@ -2765,10 +2766,10 @@ export default function BookedVehicles({
               height: '85px'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f43f5e' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>⚠️ Overdue</span>
-                <span style={{ fontSize: '1.25rem' }}>🚨</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Overdue</span>
+                <AlertTriangle size={20} color="#f43f5e"/>
               </div>
-              <strong style={{ fontSize: '1.5rem', color: 'white', lineHeight: 1 }}>{stats.overdue}</strong>
+              <strong style={{ fontSize: '1.5rem', color: '#1e293b', lineHeight: 1 }}>{stats.overdue}</strong>
               <span style={{ fontSize: '0.7rem', color: '#f43f5e' }}>Contact customer now</span>
             </div>
 
@@ -2784,10 +2785,10 @@ export default function BookedVehicles({
               height: '85px'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f59e0b' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>⏱️ Soon</span>
-                <span style={{ fontSize: '1.25rem' }}>⏳</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Ending Soon</span>
+                <Clock size={20} color="#f59e0b"/>
               </div>
-              <strong style={{ fontSize: '1.5rem', color: 'white', lineHeight: 1 }}>{stats.endingSoon}</strong>
+              <strong style={{ fontSize: '1.5rem', color: '#1e293b', lineHeight: 1 }}>{stats.endingSoon}</strong>
               <span style={{ fontSize: '0.7rem', color: '#f59e0b' }}>Ending in 12 hours</span>
             </div>
 
@@ -2803,10 +2804,10 @@ export default function BookedVehicles({
               height: '85px'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#818cf8' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>📅 Today</span>
-                <span style={{ fontSize: '1.25rem' }}>🏁</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Today</span>
+                <Calendar size={20} color="#818cf8"/>
               </div>
-              <strong style={{ fontSize: '1.5rem', color: 'white', lineHeight: 1 }}>{stats.endingToday}</strong>
+              <strong style={{ fontSize: '1.5rem', color: '#1e293b', lineHeight: 1 }}>{stats.endingToday}</strong>
               <span style={{ fontSize: '0.7rem', color: '#818cf8' }}>Ending by end of day</span>
             </div>
 
@@ -2822,10 +2823,10 @@ export default function BookedVehicles({
               height: '85px'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>✅ Active</span>
-                <span style={{ fontSize: '1.25rem' }}>🛵</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Active</span>
+                <CheckCircle size={20} color="#10b981"/>
               </div>
-              <strong style={{ fontSize: '1.5rem', color: 'white', lineHeight: 1 }}>{stats.active}</strong>
+              <strong style={{ fontSize: '1.5rem', color: '#1e293b', lineHeight: 1 }}>{stats.active}</strong>
               <span style={{ fontSize: '0.7rem', color: '#10b981' }}>Currently active rentals</span>
             </div>
           </div>
@@ -2841,16 +2842,16 @@ export default function BookedVehicles({
                 onChange={e => setSearchTerm(e.target.value)}
                 style={{ paddingLeft: '32px' }}
               />
-              <span style={{ position: 'absolute', left: '12px', top: '10px', color: 'var(--text-secondary)' }}>🔍</span>
+              <Search size={16} style={{ position: 'absolute', left: '12px', top: '10px', color: '#94a3b8' }}/>
             </div>
             
             <button 
-              className="btn btn-secondary" 
+              className="fo-btn-outline" 
               onClick={() => setShowFilterBar(!showFilterBar)}
               style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '130px', justifyContent: 'center' }}
             >
-              <span>⚙️ {showFilterBar ? 'Hide Filters' : 'Show Filters'}</span>
-              <span>{showFilterBar ? '▲' : '▼'}</span>
+              <SlidersHorizontal size={14}/> {showFilterBar ? 'Hide Filters' : 'Show Filters'}
+              {showFilterBar ? <ChevronUp size={14}/> : <ChevronDown size={14}/>}
             </button>
           </div>
 
@@ -2997,7 +2998,7 @@ export default function BookedVehicles({
                         fontSize: '1.8rem',
                         border: '1px solid var(--border-light)'
                       }}>
-                        {b.vehicleDetails?.category?.toLowerCase() === 'car' ? '🚗' : '🛵'}
+                        {b.vehicleDetails?.category?.toLowerCase() === 'car' ? <Car size={28} color="#6366f1"/> : <Bike size={28} color="#6366f1"/>}
                       </div>
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -3015,28 +3016,28 @@ export default function BookedVehicles({
                           )}
 
                           {/* Customer Name, Phone, and Zone Location in strip */}
-                          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'white', marginLeft: '6px' }}>
-                            👤 {b.customerName}
+                          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#1e293b', marginLeft: '6px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <User size={13}/> {b.customerName}
                           </span>
                           <span style={{ color: 'var(--text-muted)' }}>•</span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            📞 {b.customerPhone}
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <Phone size={12}/> {b.customerPhone}
                           </span>
                           <span style={{ color: 'var(--text-muted)' }}>•</span>
-                          <span style={{ fontSize: '0.8rem', color: '#f87171' }}>
-                            📍 {b.pickupLocation || 'Vijay Nagar'}
+                          <span style={{ fontSize: '0.8rem', color: '#f87171', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <MapPin size={12}/> {b.pickupLocation || 'Vijay Nagar'}
                           </span>
                         </div>
 
                         {/* Timing details with Calendar icon */}
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span>📅</span>
+                          <Calendar size={13} color="#94a3b8"/>
                           <span>
                             {(() => {
                               const pDate = new Date(b.pickupDate || b.rentalPeriod?.startDate);
                               return isNaN(pDate.getTime()) ? 'N/A' : pDate.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
                             })()}
-                            &nbsp;➔&nbsp;
+                             → 
                             {(() => {
                               const dDate = new Date(b.expectedDropDate || b.rentalPeriod?.expectedEndDate);
                               return isNaN(dDate.getTime()) ? 'N/A' : dDate.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
@@ -3049,7 +3050,7 @@ export default function BookedVehicles({
                     {/* Middle Right: Financial Indicators */}
                     <div style={{ flex: 1, padding: '0 20px', borderLeft: '1px solid rgba(255,255,255,0.04)', borderRight: '1px solid rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                        Total combined: <strong style={{ color: 'white' }}>₹{grossTotal}</strong>
+                        Total combined: <strong style={{ color: '#1e293b' }}>₹{grossTotal}</strong>
                       </div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--status-available)' }}>
                         Paid upfront: <strong>₹{b.advancePaid}</strong>
@@ -3103,17 +3104,17 @@ export default function BookedVehicles({
                     textAlign: 'center',
                     background: 'rgba(0,0,0,0.1)'
                   }}>
-                    <div style={{ padding: '6px', color: 'var(--status-available)' }}>
-                      💵 Cash In: <strong>₹{flow.cashIn}</strong>
+                    <div style={{ padding: '6px', color: 'var(--status-available)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                      <Banknote size={13}/> Cash In: <strong>₹{flow.cashIn}</strong>
                     </div>
-                    <div style={{ padding: '6px', color: 'var(--status-ongoing)' }}>
-                      💻 Online In: <strong>₹{flow.onlineIn}</strong>
+                    <div style={{ padding: '6px', color: 'var(--status-ongoing)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                      <Monitor size={13}/> Online In: <strong>₹{flow.onlineIn}</strong>
                     </div>
-                    <div style={{ padding: '6px', color: '#f59e0b' }}>
-                      💸 Cash Out: <strong>₹{flow.cashOut}</strong>
+                    <div style={{ padding: '6px', color: '#f59e0b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                      <Wallet size={13}/> Cash Out: <strong>₹{flow.cashOut}</strong>
                     </div>
-                    <div style={{ padding: '6px', color: '#a78bfa' }}>
-                      💳 Online Out: <strong>₹{flow.onlineOut}</strong>
+                    <div style={{ padding: '6px', color: '#a78bfa', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+                      <CreditCard size={13}/> Online Out: <strong>₹{flow.onlineOut}</strong>
                     </div>
                   </div>
                 </div>
@@ -3190,7 +3191,7 @@ export default function BookedVehicles({
                   gap: '6px'
                 }}
               >
-                📝 Edit Details
+                <Pencil size={14}/> Edit Details
               </button>
               <button 
                 type="button"
@@ -3210,7 +3211,7 @@ export default function BookedVehicles({
                   gap: '6px'
                 }}
               >
-                🕒 Extend Booking
+                <Clock size={14}/> Extend Booking
               </button>
               <span style={{ 
                 borderRadius: '20px', 
@@ -3337,7 +3338,7 @@ export default function BookedVehicles({
                   gap: '20px'
                 }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1.5rem', color: '#64748b' }}>👤</span>
+                    <span style={{ fontSize: '1.5rem', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><User size={24} color="#64748b"/></span>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.95rem', display: 'block' }}>
                         {selectedBooking.customerName || selectedBooking.customer?.name || 'N/A'}
@@ -3347,7 +3348,7 @@ export default function BookedVehicles({
                   </div>
                   
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1.5rem', color: '#64748b' }}>📞</span>
+                    <span style={{ fontSize: '1.5rem', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Phone size={24} color="#64748b"/></span>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.95rem', display: 'block' }}>
                         {selectedBooking.customerPhone || selectedBooking.customer?.phone || 'N/A'}
@@ -3357,7 +3358,7 @@ export default function BookedVehicles({
                   </div>
 
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1.5rem', color: '#64748b' }}>✉️</span>
+                    <span style={{ fontSize: '1.5rem', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><FileText size={24} color="#64748b"/></span>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.95rem', display: 'block' }}>
                         {selectedBooking.customer?.email || 'N/A'}
@@ -3409,7 +3410,7 @@ export default function BookedVehicles({
                           gap: '8px'
                         }}>
                           <strong style={{ color: '#1d4ed8', borderBottom: '1px solid #bfdbfe', paddingBottom: '6px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-                            📅 Scheduled Booking Time
+                            <Calendar size={16} style={{marginRight: 6}}/> Scheduled Booking Time
                           </strong>
                           <div>Scheduled Start Time: <strong style={{ color: '#1e3a8a', marginLeft: '4px' }}>{formatDate(selectedBooking.pickupDate || selectedBooking.rentalPeriod?.startDate)}</strong></div>
                           <div>Scheduled End Time: <strong style={{ color: '#1e3a8a', marginLeft: '4px' }}>{formatDate(selectedBooking.expectedDropDate || selectedBooking.rentalPeriod?.expectedEndDate)}</strong></div>
@@ -3440,7 +3441,7 @@ export default function BookedVehicles({
                             </div>
                           ) : (
                             <>
-                              <span style={{ fontSize: '2rem', marginBottom: '8px' }}>⚠️</span>
+                              <AlertTriangle size={28} color="#f59e0b" style={{marginBottom: '8px'}}/>
                               <strong style={{ color: '#334155', display: 'block', marginBottom: '4px' }}>Pickup not completed yet</strong>
                               <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Actual timings will appear after vehicle handover</span>
                             </>
@@ -3475,7 +3476,7 @@ export default function BookedVehicles({
                 </h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '20px' }}>
                   <div style={{ display: 'flex', gap: '10px' }}>
-                    <span style={{ color: '#10b981', fontSize: '1.3rem' }}>📍</span>
+                    <MapPin size={20} color="#10b981"/>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.9rem', display: 'block' }}>Pickup Location</strong>
                       <div style={{ color: '#334155', fontSize: '0.85rem', fontWeight: '500' }}>{selectedBooking.pickupLocation || 'Bhawarkua'}</div>
@@ -3483,7 +3484,7 @@ export default function BookedVehicles({
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
-                    <span style={{ color: '#dc2626', fontSize: '1.3rem' }}>📍</span>
+                    <MapPin size={20} color="#dc2626"/>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.9rem', display: 'block' }}>Drop Location</strong>
                       <div style={{ color: '#334155', fontSize: '0.85rem', fontWeight: '500' }}>{selectedBooking.dropLocation || 'Bhawarkua'}</div>
@@ -3491,7 +3492,7 @@ export default function BookedVehicles({
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
-                    <span style={{ color: '#3b82f6', fontSize: '1.3rem' }}>📍</span>
+                    <MapPin size={20} color="#3b82f6"/>
                     <div>
                       <strong style={{ color: '#0f172a', fontSize: '0.9rem', display: 'block' }}>Zone</strong>
                       <div style={{ color: '#334155', fontSize: '0.85rem', fontWeight: '500' }}>{selectedBooking.pickupLocation || 'Bhawarkua'}</div>
@@ -3517,7 +3518,7 @@ export default function BookedVehicles({
                   letterSpacing: '0.05em',
                   marginBottom: '16px' 
                 }}>
-                  📁 Customer Address & Documents
+                  <FileText size={16} style={{marginRight: 6}}/> Customer Address & Documents
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.85rem' }}>
                   <div>
@@ -3640,7 +3641,7 @@ export default function BookedVehicles({
                   borderBottom: '1px solid #e2e8f0',
                   paddingBottom: '8px'
                 }}>
-                  📜 Booking Revision History
+                  <RotateCw size={16} style={{marginRight: 6}}/> Booking Revision History
                 </h4>
                 {selectedBooking.revisions && selectedBooking.revisions.length > 0 ? (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative', paddingLeft: '20px', borderLeft: '2px solid #cbd5e1', marginLeft: '10px' }}>
@@ -3951,7 +3952,7 @@ export default function BookedVehicles({
                                       {rev.financialSnapshotAfterChange && (
                                         <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '10px', fontSize: '0.75rem' }}>
                                           <div style={{ fontWeight: 'bold', color: '#475569', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px', marginBottom: '8px', textTransform: 'uppercase', fontSize: '0.7rem' }}>
-                                            📊 Ledger Snapshot After Change
+                                            Ledger Snapshot After Change
                                           </div>
                                           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -4046,7 +4047,7 @@ export default function BookedVehicles({
                   borderBottom: '1px solid #cbd5e1',
                   paddingBottom: '8px'
                 }}>
-                  📊 Bill Summary
+                  Bill Summary
                 </h4>
                 {(() => {
                   const sortedRevisions = selectedBooking.revisions?.slice().sort((a, b) => (a.revisionNumber || 0) - (b.revisionNumber || 0)) || [];
@@ -4121,7 +4122,7 @@ export default function BookedVehicles({
                         {/* Left Column: Rental Cost */}
                         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px' }}>
                           <div style={{ fontWeight: 'bold', color: '#0f172a', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px', marginBottom: '8px', fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                            📋 Old Rental Summary
+                            Old Rental Summary
                           </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                             <span>Base Rental:</span>
@@ -4146,7 +4147,7 @@ export default function BookedVehicles({
                         {/* Right Column: Collection splits */}
                         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px' }}>
                           <div style={{ fontWeight: 'bold', color: '#0f172a', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px', marginBottom: '8px', fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                            💳 Upfront Paid
+                            Upfront Paid
                           </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                             <span>Rental Paid:</span>
@@ -4233,7 +4234,7 @@ export default function BookedVehicles({
                     borderBottom: '1px solid #cbd5e1',
                     paddingBottom: '8px'
                   }}>
-                    📊 Extended Bill Summary
+                    Extended Bill Summary
                   </h4>
                 {(() => {
                   const extTotal = selectedBooking.extensions?.reduce((sum, ext) => sum + ext.extraCharges, 0) || 0;
@@ -4265,7 +4266,7 @@ export default function BookedVehicles({
                         {/* Left Column: Rental Cost */}
                         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px' }}>
                           <div style={{ fontWeight: 'bold', color: '#0f172a', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px', marginBottom: '8px', fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                            📋 New Rental Summary
+                            New Rental Summary
                           </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                             <span>Base Rental:</span>
@@ -4302,7 +4303,7 @@ export default function BookedVehicles({
                         {/* Right Column: Collection splits */}
                         <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px' }}>
                           <div style={{ fontWeight: 'bold', color: '#0f172a', borderBottom: '1px solid #cbd5e1', paddingBottom: '4px', marginBottom: '8px', fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                            💳 Upfront Paid
+                            Upfront Paid
                           </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', margin: '4px 0' }}>
                             <span>Rental Paid:</span>
@@ -4416,7 +4417,7 @@ export default function BookedVehicles({
                       borderBottom: '1px solid #cbd5e1',
                       paddingBottom: '8px'
                     }}>
-                      🎁 Settlement Outcomes
+                      Settlement Outcomes
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', color: '#475569' }}>
                       
@@ -4431,7 +4432,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold',
                           fontSize: '1.1rem'
                         }}>
-                          💸 Refund Customer: ₹{refundAmount.toFixed(2)}
+                          Refund Customer: ₹{refundAmount.toFixed(2)}
                         </div>
                       ) : netSettlement > 0 ? (
                         <div style={{ 
@@ -4444,7 +4445,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold',
                           fontSize: '1.1rem'
                         }}>
-                          💵 Collect More Money: Collect ₹{netSettlement.toFixed(2)}
+                          Collect More: ₹{netSettlement.toFixed(2)}
                         </div>
                       ) : (
                         <div style={{ 
@@ -4457,7 +4458,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold',
                           fontSize: '1.1rem'
                         }}>
-                          ✅ Fully Settled (No payment needed / No refund)
+                          Fully Settled (No payment needed / No refund)
                         </div>
                       )}
 
@@ -4518,7 +4519,7 @@ export default function BookedVehicles({
                           gap: '8px' 
                         }}
                       >
-                        🚗 Vehicle Return / Drop-off
+                        <Car size={14} style={{marginRight: 4}}/> Vehicle Return / Drop-off
                       </button>
                       <button 
                         type="button"
@@ -4540,7 +4541,7 @@ export default function BookedVehicles({
                           gap: '8px' 
                         }}
                       >
-                        🚚 Replace Vehicle
+                        <Truck size={14} style={{marginRight: 4}}/> Replace Vehicle
                       </button>
                       <button 
                         type="button"
@@ -4562,7 +4563,7 @@ export default function BookedVehicles({
                           gap: '8px' 
                         }}
                       >
-                        🕒 Extend Booking
+                        <Clock size={14} style={{marginRight: 4}}/> Extend Booking
                       </button>
                     </>
                   )}
@@ -4612,7 +4613,7 @@ export default function BookedVehicles({
                       gap: '8px' 
                     }}
                   >
-                    🖨️ Print Details
+                    <Printer size={14} style={{marginRight: 4}}/> Print Details
                   </button>
                 </div>
               </div>
@@ -4667,7 +4668,7 @@ export default function BookedVehicles({
                 {/* Section 1 – Booking Snapshot (Read Only) */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>📄</span> Booking Information
+                    Booking Information
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
@@ -4713,7 +4714,7 @@ export default function BookedVehicles({
                 {/* Section 2 – Current Booking Financial Snapshot (Read Only) */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>💳</span> Booking Financial Details
+                    Booking Financial Details
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
@@ -4771,14 +4772,14 @@ export default function BookedVehicles({
                 {/* Booking Journey & Modification Summary */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', borderTop: '1px solid var(--border-light)', paddingTop: '20px', marginTop: '10px', marginBottom: '10px' }}>
                   <h4 style={{ fontSize: '0.85rem', margin: '0', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>🛣️</span> Booking Journey & Modification Summary
+                    Booking Journey & Modification Summary
                   </h4>
 
                   {/* Card 1: Booking Modifications */}
                   {hasEdits && (
                     <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                       <h3 style={{ fontSize: '0.9rem', margin: '0 0 12px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>⚙️</span> Booking Modifications
+                        Booking Modifications
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {bookingImpactingEdits.map((edit, idx) => (
@@ -4795,7 +4796,7 @@ export default function BookedVehicles({
                   {hasExtensions && (
                     <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                       <h3 style={{ fontSize: '0.9rem', margin: '0 0 12px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>⏱️</span> Duration & Extension Summary
+                        Duration & Extension Summary
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-light)', paddingBottom: '6px' }}>
@@ -4806,7 +4807,7 @@ export default function BookedVehicles({
                         {extendRevisions.map((rev, idx) => (
                           <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-light)', paddingBottom: '6px' }}>
                             <span style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                              <span style={{ color: 'var(--status-ongoing)' }}>➕</span> Extension Added
+                              + Extension Added
                             </span>
                             <strong style={{ color: 'var(--status-ongoing)' }}>+{rev.durationDetails?.difference || 0} Hours</strong>
                           </div>
@@ -4861,7 +4862,7 @@ export default function BookedVehicles({
                   {hasSwaps && (
                     <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                       <h3 style={{ fontSize: '0.9rem', margin: '0 0 12px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>🔄</span> Vehicle Replacement History
+                        Vehicle Replacement History
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.85rem' }}>
                         {replaceRevisions.map((rev, idx) => {
@@ -4875,7 +4876,7 @@ export default function BookedVehicles({
                                   <strong style={{ color: 'var(--text-primary)' }}>{details.oldVehicleName || 'Unknown'}</strong>
                                   <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>({details.oldVehicleReg || 'N/A'})</span>
                                 </div>
-                                <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>➔</span>
+                                <span style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>→</span>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>To New Vehicle</span>
                                   <strong style={{ color: 'var(--text-primary)' }}>{details.newVehicleName || 'Unknown'}</strong>
@@ -4910,7 +4911,7 @@ export default function BookedVehicles({
                   <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 0 16px 0' }}>
                       <h3 style={{ fontSize: '0.9rem', margin: 0, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>💰</span> Payment & Deposit Timeline
+                        Payment & Deposit Timeline
                       </h3>
                       <button
                         type="button"
@@ -4994,7 +4995,7 @@ export default function BookedVehicles({
                 {/* Section 3 – Return Details */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>🔄</span> Vehicle Return Details
+                    Vehicle Return Details
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -5028,7 +5029,7 @@ export default function BookedVehicles({
                   return (
                     <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                       <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>🛠️</span> Vehicle Inspection & Damage Report
+                        Vehicle Inspection & Damage Report
                       </h3>
                       
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -5046,7 +5047,7 @@ export default function BookedVehicles({
                             />
                             {calc.helmetMissing > 0 && (
                               <span style={{ fontSize: '0.75rem', color: 'var(--status-maintenance)', marginTop: '4px', display: 'block' }}>
-                                ⚠️ {calc.helmetMissing} missing helmet(s). Penalty: ₹{calc.calculatedHelmetCharge}
+                                {calc.helmetMissing} missing helmet(s). Penalty: ₹{calc.calculatedHelmetCharge}
                               </span>
                             )}
                           </div>
@@ -5159,7 +5160,7 @@ export default function BookedVehicles({
                 {/* Section 5 – Adjustments (Editable) */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>⚖️</span> Adjustments & Waivers
+                    Adjustments & Waivers
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -5189,7 +5190,7 @@ export default function BookedVehicles({
 
                     {calc.isScootyFuel && (
                       <div style={{ background: 'rgba(239, 149, 0, 0.1)', border: '1px solid rgba(239, 149, 0, 0.2)', padding: '10px 14px', borderRadius: '8px', fontSize: '0.8rem', color: 'var(--primary)' }}>
-                        ℹ️ Scooty with Fuel has no KM Limit. All distance is chargeable; additional free KM waiver is disabled.
+                        Note: Scooty with Fuel has no KM Limit. All distance is chargeable; additional free KM waiver is disabled.
                       </div>
                     )}
 
@@ -5214,7 +5215,7 @@ export default function BookedVehicles({
                 {/* Section 6 – Usage Summary (Auto Calculated) */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>📊</span> Trip Usage Summary
+                    Trip Usage Summary
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
@@ -5286,7 +5287,7 @@ export default function BookedVehicles({
                 {/* Section 7 – Charges Breakdown (Auto Calculated) */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>🧾</span> Rental Charges Breakdown
+                    Rental Charges Breakdown
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
@@ -5391,7 +5392,7 @@ export default function BookedVehicles({
                   return (
                     <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                       <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span>💰</span> Payment & Deposit Summary
+                        Payment & Deposit Summary
                       </h3>
                       
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', fontSize: '0.85rem' }}>
@@ -5444,7 +5445,7 @@ export default function BookedVehicles({
                 {/* Section 11 – Final Settlement Summary */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>📋</span> Final Settlement Ledger
+                    Final Settlement Ledger
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
@@ -5497,7 +5498,7 @@ export default function BookedVehicles({
                 {/* Unified Final Settlement Center */}
                 <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '20px' }}>
                   <h3 style={{ fontSize: '1rem', margin: '0 0 16px 0', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>⚖️</span> Final Settlement
+                    Final Settlement
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '0.85rem' }}>
@@ -5515,7 +5516,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold', 
                           fontSize: '1.05rem' 
                         }}>
-                          💵 Collect More Money: ₹{calc.remainingCollection.toFixed(2)}
+                          Collect More: ₹{calc.remainingCollection.toFixed(2)}
                         </div>
                       ) : calc.settlementStatus === 'Refund' ? (
                         <div style={{ 
@@ -5528,7 +5529,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold', 
                           fontSize: '1.05rem' 
                         }}>
-                          💸 Refund Customer: ₹{calc.depositRefund.toFixed(2)}
+                          Refund: ₹{calc.depositRefund.toFixed(2)}
                         </div>
                       ) : (
                         <div style={{ 
@@ -5541,7 +5542,7 @@ export default function BookedVehicles({
                           fontWeight: 'bold', 
                           fontSize: '1.05rem' 
                         }}>
-                          ✅ Fully Settled (No payment needed / No refund)
+                          Fully Settled
                         </div>
                       )}
                     </div>
@@ -5632,7 +5633,7 @@ export default function BookedVehicles({
                           const snapshot = getBookingFinancialSnapshot(selectedBooking);
                           return (
                             <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '8px', border: '1px dashed var(--border-light)', fontSize: '0.8rem' }}>
-                              ℹ️ <strong>Original Deposit Details:</strong> Held Cash: ₹{snapshot.paymentBreakdown?.depositCash?.toFixed(2)}, Held Online: ₹{snapshot.paymentBreakdown?.depositOnline?.toFixed(2)}
+                              <strong>Original Deposit Details:</strong> Held Cash: ₹{snapshot.paymentBreakdown?.depositCash?.toFixed(2)}, Held Online: ₹{snapshot.paymentBreakdown?.depositOnline?.toFixed(2)}
                             </div>
                           );
                         })()}
@@ -5732,7 +5733,7 @@ export default function BookedVehicles({
                             transition: 'all 0.2s'
                           }}
                         >
-                          {dropSettlementConfirmed ? '✓ Collection Confirmed' : `Confirm Collection ₹${calc.remainingCollection.toFixed(2)}`}
+                          {dropSettlementConfirmed ? "Collection Confirmed" : `Confirm Collection ₹${calc.remainingCollection.toFixed(2)}`}
                         </button>
                       )}
 
@@ -5756,7 +5757,7 @@ export default function BookedVehicles({
                             transition: 'all 0.2s'
                           }}
                         >
-                          {dropSettlementConfirmed ? '✓ Refund Confirmed' : `Confirm Refund ₹${calc.depositRefund.toFixed(2)}`}
+                          {dropSettlementConfirmed ? "Refund Confirmed" : `Confirm Refund ₹${calc.depositRefund.toFixed(2)}`}
                         </button>
                       )}
 
@@ -5792,14 +5793,14 @@ export default function BookedVehicles({
                               transition: 'all 0.2s'
                             }}
                           >
-                            {dropSettlementConfirmed ? '✓ Settlement Confirmed' : 'Confirm Settlement'}
+                            {dropSettlementConfirmed ? "Settlement Confirmed" : 'Confirm Settlement'}
                           </button>
                         </div>
                       )}
 
                       {dropSettlementConfirmed && (
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#34d399', fontSize: '0.8rem', fontWeight: '500' }}>
-                          <span>🛡️</span> Settlement ready to finalize. Click below to submit.
+                          Settlement ready to finalize. Click below to submit.
                         </div>
                       )}
                     </div>
@@ -5848,7 +5849,7 @@ export default function BookedVehicles({
           <div className="modal-content glass-panel" style={{ maxWidth: '500px' }}>
             <div className="modal-header">
               <h2>Vehicle Handover Pickup - {selectedBooking.bookingId}</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
             </div>
             <form onSubmit={handlePickupSubmit}>
               <div className="modal-body">
@@ -5914,7 +5915,7 @@ export default function BookedVehicles({
             <div className="modal-content glass-panel" style={{ maxWidth: '550px', maxHeight: '90vh', overflowY: 'auto' }}>
               <div className="modal-header">
                 <h2>Extend Rental Period - {selectedBooking.bookingId}</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
               </div>
               <form onSubmit={handleExtendSubmit}>
                 <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -6062,14 +6063,14 @@ export default function BookedVehicles({
                         marginTop: '10px'
                       }} className="animate-fade">
                         <strong style={{ color: '#3b82f6', display: 'block', marginBottom: '12px', fontSize: '0.9rem' }}>
-                          🕒 Extension Preview Details
+                          <Clock size={14} style={{marginRight: 4}}/> Extension Preview Details
                         </strong>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                           {/* Duration row */}
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span style={{ color: 'var(--text-secondary)' }}>Duration:</span>
                             <span>
-                              <strong>{oldDuration} hrs</strong> ➔ <strong>{newDuration} hrs</strong> 
+                              <strong>{oldDuration} hrs</strong> → <strong>{newDuration} hrs</strong> 
                               <span style={{ color: '#10b981', marginLeft: '6px' }}>({additionalHours} hrs granted)</span>
                             </span>
                           </div>
@@ -6077,7 +6078,7 @@ export default function BookedVehicles({
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span style={{ color: 'var(--text-secondary)' }}>Rental Cost:</span>
                             <span>
-                              <strong>₹{oldRentalCost}</strong> ➔ <strong>₹{newRentalCost}</strong>
+                              <strong>₹{oldRentalCost}</strong> → <strong>₹{newRentalCost}</strong>
                               <span style={{ color: '#10b981', marginLeft: '6px' }}>(+₹{extensionExtraCharges})</span>
                             </span>
                           </div>
@@ -6085,7 +6086,7 @@ export default function BookedVehicles({
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span style={{ color: 'var(--text-secondary)' }}>KM Limit:</span>
                             <span>
-                              <strong>{oldKmLimit} KM</strong> ➔ <strong>{newKmLimit} KM</strong>
+                              <strong>{oldKmLimit} KM</strong> → <strong>{newKmLimit} KM</strong>
                               <span style={{ color: '#10b981', marginLeft: '6px' }}>(+{additionalKmGranted} KM)</span>
                             </span>
                           </div>
@@ -6093,7 +6094,7 @@ export default function BookedVehicles({
                           <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px dashed rgba(255,255,255,0.1)', paddingTop: '8px' }}>
                             <span style={{ color: 'var(--text-secondary)' }}>Security Deposit Held:</span>
                             <span>
-                              <strong>₹{oldDeposit}</strong> ➔ <strong>₹{newDeposit}</strong>
+                              <strong>₹{oldDeposit}</strong> → <strong>₹{newDeposit}</strong>
                               {Number(extensionAdditionalDeposit) > 0 && (
                                 <span style={{ color: '#ea580c', marginLeft: '6px' }}>(+₹{extensionAdditionalDeposit} required)</span>
                               )}
@@ -6123,7 +6124,7 @@ export default function BookedVehicles({
             <div className="modal-content glass-panel" style={{ maxWidth: '550px', maxHeight: '90vh', overflowY: 'auto' }}>
               <div className="modal-header">
                 <h2>Swap / Replace Vehicle - {selectedBooking.bookingId}</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
               </div>
               <form onSubmit={handleReplaceSubmit}>
                 <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -6184,7 +6185,7 @@ export default function BookedVehicles({
                   {newVehicleId && comp && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }} className="animate-fade">
                       <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', fontSize: '0.8rem' }}>
-                        <strong style={{ display: 'block', marginBottom: '6px' }}>📋 Replacement Vehicle Specs:</strong>
+                        <strong style={{ display: 'block', marginBottom: '6px' }}>Replacement Vehicle Specs:</strong>
                         <div>Category: <strong>{comp.newVehicle.category}</strong></div>
                         <div>Reg Number: <code>{comp.newVehicle.regNumber}</code></div>
                         <div>Rate/Day: ₹{comp.newVehicle.perDayRate || comp.newVehicle.pricingPlans?.twentyFourHour?.baseRate}</div>
@@ -6219,7 +6220,7 @@ export default function BookedVehicles({
 
                   {newVehicleId && comp && applyNewPricing && (
                     <div style={{ background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.2)', padding: '16px', borderRadius: '10px', fontSize: '0.85rem' }} className="animate-fade">
-                      <strong style={{ color: '#10b981', display: 'block', marginBottom: '12px', fontSize: '0.9rem' }}>💰 Pricing Swap Comparison</strong>
+                      <strong style={{ color: '#10b981', display: 'block', marginBottom: '12px', fontSize: '0.9rem' }}>Pricing Swap Comparison</strong>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         
                         {/* Rental Cost Section */}
@@ -6267,9 +6268,9 @@ export default function BookedVehicles({
                         {/* Grand Total Settle Outcomes */}
                         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '10px', marginTop: '6px', fontWeight: 'bold' }}>
                           {comp.totalDiff > 0 ? (
-                            <span style={{ color: '#ea580c' }}>⚠️ Collect Extra Settlement Amount: ₹{comp.totalDiff}</span>
+                            <span style={{ color: '#ea580c' }}>Collect Extra Settlement Amount: ₹{comp.totalDiff}</span>
                           ) : comp.totalDiff < 0 ? (
-                            <span style={{ color: '#10b981' }}>💸 Settle Refund Difference Amount: ₹{Math.abs(comp.totalDiff)}</span>
+                            <span style={{ color: '#10b981' }}>Settle Refund Difference Amount: ₹{Math.abs(comp.totalDiff)}</span>
                           ) : (
                             <span>Fully Symmetrical Settle (No price difference)</span>
                           )}
@@ -6327,7 +6328,7 @@ export default function BookedVehicles({
             <div className="modal-content glass-panel" style={{ maxWidth: '650px', maxHeight: '90vh', overflowY: 'auto' }}>
               <div className="modal-header">
                 <h2>Edit Booking Info - {selectedBooking.bookingId}</h2>
-                <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+                <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
               </div>
               <form onSubmit={handleEditSubmit}>
                 <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -6485,7 +6486,7 @@ export default function BookedVehicles({
                   {/* Deposit Comparison Card */}
                   {comp && comp.diff !== 0 && (
                     <div style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)', padding: '16px', borderRadius: '10px', fontSize: '0.85rem' }} className="animate-fade">
-                      <strong style={{ color: '#3b82f6', display: 'block', marginBottom: '10px', fontSize: '0.9rem' }}>🛡️ Security Deposit Summary</strong>
+                      <strong style={{ color: '#3b82f6', display: 'block', marginBottom: '10px', fontSize: '0.9rem' }}>Security Deposit Summary</strong>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                           <span style={{ color: 'var(--text-secondary)' }}>Old Deposit Held:</span>
@@ -6528,14 +6529,14 @@ export default function BookedVehicles({
           <div className="modal-content glass-panel" style={{ maxWidth: '450px' }}>
             <div className="modal-header">
               <h2>Collect Money Payment - {selectedBooking.bookingId}</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
             </div>
             <form onSubmit={handleStandaloneCollectSubmit}>
               <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 
                 {/* Financial Snapshot */}
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', fontSize: '0.8rem' }}>
-                  <strong style={{ display: 'block', marginBottom: '6px' }}>📊 Booking Financial Snapshot:</strong>
+                  <strong style={{ display: 'block', marginBottom: '6px' }}>Booking Financial Snapshot:</strong>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
                     <div>Rental Cost Total: <strong>₹{pendingRental + selectedBooking.advancePaid}</strong></div>
                     <div>Rental Paid Till Now: <strong style={{ color: '#10b981' }}>₹{selectedBooking.advancePaid}</strong></div>
@@ -6668,8 +6669,8 @@ export default function BookedVehicles({
         <div className="modal-overlay">
           <div className="modal-content glass-panel" style={{ maxWidth: '550px' }}>
             <div className="modal-header">
-              <h2 style={{ color: 'var(--secondary)' }}>🔧 Admin Override Pricing - {selectedBooking.bookingId}</h2>
-              <button className="btn btn-secondary btn-icon" onClick={() => setActiveModal(null)}>✕</button>
+              <h2 style={{ color: 'var(--secondary)' }}>Admin Override Pricing - {selectedBooking.bookingId}</h2>
+              <button className="fo-btn-outline" style={{borderRadius:'50%',width:'32px',height:'32px',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} onClick={() => setActiveModal(null)}><X size={16}/></button>
             </div>
             <form onSubmit={handleAdminOverrideSubmit}>
               <div className="modal-body">

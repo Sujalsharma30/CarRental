@@ -1,63 +1,89 @@
 import React from 'react';
+import { LayoutDashboard, Car, Calendar, Users, Crosshair, DollarSign, BarChart3, Wrench, Settings, User, X } from 'lucide-react';
 
-export default function Sidebar({ currentTab, setCurrentTab, userRole }) {
+export default function Sidebar({ currentTab, setCurrentTab, userRole, isOpen, onClose }) {
   const isAdmin = userRole === 'admin';
 
+  const mainNav = [
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+    { id: 'vehicles', label: 'Vehicles', icon: <Car size={20} />, adminOnly: true },
+    { id: 'bookings', label: 'Bookings', icon: <Calendar size={20} /> },
+    { id: 'available', label: 'Customers', icon: <Users size={20} /> },
+    // { id: 'fleet', label: 'Fleet Tracking', icon: <Crosshair size={20}/>, disabled: true },
+    { id: 'hisab', label: 'Revenue', icon: <DollarSign size={20} /> },
+    // { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={20}/>, disabled: true },
+    // { id: 'maintenance', label: 'Maintenance', icon: <Wrench size={20}/>, disabled: true },
+  ];
+
+  const handleNavClick = (item) => {
+    if (item.disabled) return;
+    setCurrentTab(item.id);
+    if (onClose) onClose(); // close drawer on mobile after nav
+  };
+
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <div className="logo-icon">V</div>
-        <span className="logo-text">VeloRent</span>
-      </div>
+    <>
+      {/* Mobile overlay backdrop */}
+      {isOpen && (
+        <div
+          className="fo-sidebar-backdrop"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
-      <nav className="sidebar-nav">
-        <div 
-          className={`nav-item ${currentTab === 'dashboard' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('dashboard')}
-        >
-          <span>📊</span>
-          <span>Dashboard</span>
-        </div>
-
-        <div 
-          className={`nav-item ${currentTab === 'available' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('available')}
-        >
-          <span>🚗</span>
-          <span>Available Vehicles</span>
-        </div>
-
-        {isAdmin && (
-          <div 
-            className={`nav-item ${currentTab === 'vehicles' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('vehicles')}
-          >
-            <span>🔧</span>
-            <span>Vehicle Fleet</span>
+      <aside className={`fo-sidebar${isOpen ? ' fo-sidebar--open' : ''}`}>
+        {/* Logo */}
+        <div className="fo-sidebar-logo">
+          <div className="fo-logo-icon">
+            <LayoutDashboard size={20} color="white" strokeWidth={2.5} />
           </div>
-        )}
-
-        <div 
-          className={`nav-item ${currentTab === 'bookings' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('bookings')}
-        >
-          <span>📅</span>
-          <span>Bookings List</span>
+          <div className="fo-logo-text">
+            <span className="fo-logo-title">VeloRent</span>
+            <span className="fo-logo-subtitle">Enterprise Management</span>
+          </div>
+          {/* Close button – visible only on mobile */}
+          <button className="fo-sidebar-close" onClick={onClose} aria-label="Close menu">
+            <X size={18} color="#64748b" />
+          </button>
         </div>
 
-        <div 
-          className={`nav-item ${currentTab === 'hisab' ? 'active' : ''}`}
-          onClick={() => setCurrentTab('hisab')}
-        >
-          <span>💰</span>
-          <span>Daily Hisab</span>
-        </div>
-      </nav>
+        {/* Main Navigation */}
+        <nav className="fo-sidebar-nav">
+          {mainNav.map(item => {
+            if (item.adminOnly && !isAdmin) return null;
+            return (
+              <div
+                key={item.id}
+                className={`fo-nav-item ${currentTab === item.id ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
+                onClick={() => handleNavClick(item)}
+              >
+                <span className="fo-nav-icon">{item.icon}</span>
+                <span className="fo-nav-label">{item.label}</span>
+              </div>
+            );
+          })}
+        </nav>
 
-      <div className="sidebar-footer">
-        <div>VeloRent System v1.0</div>
-        <div style={{ marginTop: '4px', fontSize: '0.7rem' }}>Logged in as {isAdmin ? 'Admin' : 'Worker'}</div>
-      </div>
-    </aside>
+        {/* Settings */}
+        <div className="fo-sidebar-bottom">
+          <div className="fo-nav-item" onClick={() => { }}>
+            <span className="fo-nav-icon"><Settings size={20} /></span>
+            <span className="fo-nav-label">Settings</span>
+          </div>
+        </div>
+
+        {/* User Footer */}
+        <div className="fo-sidebar-footer">
+          <div className="fo-user-avatar">
+            <User size={18} color="white" strokeWidth={2} />
+          </div>
+          <div className="fo-user-info">
+            <span className="fo-user-name">{isAdmin ? 'Admin User' : 'Worker'}</span>
+            <span className="fo-user-role">Fleet Manager</span>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }
